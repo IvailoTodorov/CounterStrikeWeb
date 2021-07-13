@@ -1,6 +1,7 @@
 namespace CounterStrikeWeb
 {
     using CounterStrikeWeb.Data;
+    using CounterStrikeWeb.Infrastrucure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -18,7 +19,7 @@ namespace CounterStrikeWeb
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options
+            services.AddDbContext<CounterStrikeDbContext>(options => options
             .UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
@@ -33,7 +34,7 @@ namespace CounterStrikeWeb
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireLowercase = false;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<CounterStrikeDbContext>();
 
             services
                 .AddControllersWithViews();
@@ -41,6 +42,8 @@ namespace CounterStrikeWeb
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.PrepareDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
