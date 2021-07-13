@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static Data.DataConstants;
 
     public class Match
     {
@@ -19,7 +19,7 @@
 
         public DateTime StartTime { get; set; }
 
-        public int EventId { get; set; }
+        public int? EventId { get; set; }
 
         public Event Event { get; init; }
     }

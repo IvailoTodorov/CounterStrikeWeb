@@ -1,29 +1,33 @@
-﻿namespace CounterStrikeWeb.Data.Models
+﻿namespace CounterStrikeWeb.Models.Players
 {
     using System.ComponentModel.DataAnnotations;
 
     using static Data.DataConstants;
-
-    public class Player
+    public class AddPlayerFormModel
     {
-        public int Id { get; init; }
-
         [Required]
-        [MaxLength(NameMaxLength)]
+        [StringLength(NameMaxLength, MinimumLength = NameMinLength)]
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(PlayerNameMaxLength)]
+        [StringLength(PlayerNameMaxLength, MinimumLength = PlayerNameMinLength)]
         public string InGameName { get; set; }
 
+        [Range(PlayerMinAge,PlayerMaxAge)]
         public int Age { get; set; }
 
+        [Url]
         public string Picture { get; set; }
 
+        [Required]
         public string Country { get; set; }
 
+        [Display(Name = "Instagram URL")]
+        [Url]
         public string InstagramUrl { get; set; }
 
+        [Display(Name = "Twitter URL")]
+        [Url]
         public string TwitterUrl { get; set; }
 
         //public string Crosshair { get; set; }
@@ -34,9 +38,6 @@
 
         //public string LaunchOptions { get; set; }
 
-        public int? TeamId { get; set; }
-
-        public Team Team { get; init; }
-
+        //public int TeamId { get; set; }
     }
 }
