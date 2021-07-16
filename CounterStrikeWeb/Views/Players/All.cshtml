@@ -1,0 +1,20 @@
+﻿@model IEnumerable<PlayerListingViewModel>
+
+@{
+    ViewData["Title"] = "All Players";
+}
+
+<div class="row">
+    @foreach (var player in Model)
+    {
+        <div class="col-md-3">
+            <div class="card mb-2">
+                <img class="card-img-top" src="@player.Picture" alt="@player.Name - @player.Age ">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@player.InGameName</h5>
+                    <a asp-controller="Players" asp-action="Details" asp-route-id="@player.Id" class="btn btn-primary">View More</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

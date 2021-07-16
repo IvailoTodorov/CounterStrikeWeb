@@ -1,5 +1,6 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using System.Linq;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Players;
@@ -37,7 +38,25 @@
 
             this.data.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult All()
+        {
+            var players = this.data
+                .Players
+                .OrderByDescending(x => x.Id)
+                .Select(p => new PlayerListingViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    InGameName = p.InGameName,
+                    Age = p.Age,
+                    Picture = p.Picture,
+                })
+                .ToList();
+
+            return View(players);
         }
     }
 }
