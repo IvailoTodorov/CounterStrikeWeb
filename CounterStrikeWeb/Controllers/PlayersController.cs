@@ -58,5 +58,32 @@
 
             return View(players);
         }
+
+        public IActionResult Details(int PlayerId)
+        {
+            var player = this.data
+                .Players
+                .Find(PlayerId);
+
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            var playerData = new PlayerDetailsViewModel
+            {
+                Name = player.Name,
+                InGameName = player.InGameName,
+                Age = player.Age,
+                Country = player.Country,
+                Picture = player.Picture,
+                InstagramUrl = player.InstagramUrl,
+                TwitterUrl = player.TwitterUrl,
+                TeamName = player.Team.Name,
+                TeamLogo = player.Team.Logo,
+            };
+
+            return View(playerData);
+        }
     }
 }
