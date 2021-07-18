@@ -1,0 +1,22 @@
+﻿@model IEnumerable<EventListingViewModel>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+
+@foreach (var ev in Model)
+{
+    <div class="card text-center">
+        <div class="card-header">
+            Event
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@ev.Name</h5>
+            <p class="card-text">@ev.StartOn</p>
+            <p class="card-text">Price: @ev.Price</p>
+            <p class="card-text">@ev.ParticipantsCount Teams</p>
+            <a asp-controller="Events" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-primary">Details</a>
+        </div>
+    </div>
+}

@@ -3,7 +3,9 @@
     public class DataConstants
     {
         public const int EventNameMaxLength = 50;
+        public const int EventNameMinLength = 3;
         public const int EventPriceMaxLength = 100;
+        public const int EventPriceMinLength = 5;
 
         public const int TeamNameMaxLength = 30;
         public const int TeamNameMinLength = 3;
