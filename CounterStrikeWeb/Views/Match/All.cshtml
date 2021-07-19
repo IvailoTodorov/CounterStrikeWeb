@@ -1,0 +1,20 @@
+﻿@model IEnumerable<MatchListingViewModel>
+
+@{
+    ViewData["Title"] = "Matches";
+}
+
+
+@foreach (var match in Model)
+{
+    <div class="card text-center">
+        <div class="card-header">
+            Match
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@match.FirstTeam vs @match.SecondTeam</h5>
+            <p class="card-text">@match.StartTime</p>
+            <a asp-controller="Match" asp-action="Details" asp-route-id="@match.Id" class="btn btn-primary">Details</a>
+        </div>
+    </div>
+}

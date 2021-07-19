@@ -4,12 +4,12 @@
     {
         public int Id { get; init; }
 
-        public string Name { get; set; }
+        public string Name { get; init; }
 
-        public string StartOn { get; set; }
+        public string StartOn { get; init; }
 
-        public string Price { get; set; }
+        public string Price { get; init; }
 
-        public int ParticipantsCount { get; set; }
+        public int ParticipantsCount { get; init; }
     }
 }

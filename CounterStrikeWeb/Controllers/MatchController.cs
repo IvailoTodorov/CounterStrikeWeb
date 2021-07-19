@@ -1,0 +1,68 @@
+﻿namespace CounterStrikeWeb.Controllers
+{
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
+    using CounterStrikeWeb.Data;
+    using CounterStrikeWeb.Data.Models;
+    using CounterStrikeWeb.Models.Match;
+    using CounterStrikeWeb.Models.Matches;
+
+    public class MatchController : Controller
+    {
+        private readonly CounterStrikeDbContext data;
+
+        public MatchController(CounterStrikeDbContext data)
+            => this.data = data;
+
+        public IActionResult Add() => View();
+
+        [HttpPost]
+        public IActionResult Add(AddMatchFormModel match)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(match);
+            }
+
+            var firstTeam = this.data.Teams.FirstOrDefault(x => x.Name == match.FirstTeam);
+            var secondTeam = this.data.Teams.FirstOrDefault(x => x.Name == match.SecondTeam);
+
+            if (firstTeam == null || secondTeam == null)
+            {
+                return View(match);
+            }
+
+            var matchData = new Match
+            {
+                FirstTeam = match.FirstTeam,
+                SecondTeam = match.SecondTeam,
+                StartTime = DateTime.ParseExact(match.StartTime, "MMMM dd yyyy", CultureInfo.InvariantCulture),
+            };
+
+            this.data.Matches.Add(matchData);
+
+            this.data.SaveChanges();
+
+            return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult All()
+        {
+            var matches = this.data
+               .Matches
+               .OrderByDescending(x => x.Id)
+               .Select(m => new MatchListingViewModel
+               {
+                   Id = m.Id,
+                   FirstTeam = m.FirstTeam,
+                   SecondTeam = m.SecondTeam,
+                   StartTime = m.StartTime.ToString("MMMM dd yyyy")
+               })
+               .ToList();
+
+            return View(matches);
+        }
+    }
+}
