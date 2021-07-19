@@ -1,12 +1,12 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Events;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Globalization;
-    using System.Linq;
 
     public class EventsController : Controller
     {

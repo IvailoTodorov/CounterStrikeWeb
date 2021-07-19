@@ -59,11 +59,11 @@
             return View(players);
         }
 
-        public IActionResult Details(int PlayerId)
+        public IActionResult Details(int Id)
         {
             var player = this.data
                 .Players
-                .Find(PlayerId);
+                .Find(Id);
 
             if (player == null)
             {
@@ -72,6 +72,7 @@
 
             var playerData = new PlayerDetailsViewModel
             {
+                Id = Id,
                 Name = player.Name,
                 InGameName = player.InGameName,
                 Age = player.Age,
@@ -79,8 +80,8 @@
                 Picture = player.Picture,
                 InstagramUrl = player.InstagramUrl,
                 TwitterUrl = player.TwitterUrl,
-                TeamName = player.Team.Name,
-                TeamLogo = player.Team.Logo,
+                //TeamName = player.Team.Name,
+                //TeamLogo = player.Team.Logo,
             };
 
             return View(playerData);

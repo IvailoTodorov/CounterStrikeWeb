@@ -2,6 +2,8 @@
 {
     public class PlayerDetailsViewModel
     {
+        public int Id { get; init; }
+
         public string Name { get; init; }
 
         public string InGameName { get; init; }
@@ -16,17 +18,17 @@
 
         public string TwitterUrl { get; init; }
 
-        //public string Crosshair { get; set; }
+        //public string Crosshair { get; init; }
 
-        //public string ViewModel { get; set; }
+        //public string ViewModel { get; init; }
 
-        //public string CL_BOB { get; set; }
+        //public string CL_BOB { get; init; }
 
-        //public string LaunchOptions { get; set; }
+        //public string LaunchOptions { get; init; }
 
-        public string TeamName { get; set; }
+        //public string TeamName { get; init; }
 
-        public string TeamLogo { get; set; }
+        //public string TeamLogo { get; init; }
 
     }
 }
