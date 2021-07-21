@@ -29,6 +29,10 @@
 
         public double AveragePlayersAge { get; set; }
 
+        public int? EventId { get; set; }
+
+        public Event Event { get; init; }
+
         public IEnumerable<Player> Players { get; init; }
 
         public IEnumerable<Match> Matches { get; init; }

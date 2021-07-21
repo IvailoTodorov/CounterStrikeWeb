@@ -25,10 +25,17 @@
                 return View(@event);
             }
 
+            var startOn = DateTime.ParseExact(@event.StartOn, "MMMM dd yyyy", CultureInfo.InvariantCulture);
+
+            if (startOn < DateTime.UtcNow)
+            {
+                return BadRequest();
+            }
+
             var eventData = new Event
             {
                 Name = @event.Name,
-                StartOn = DateTime.ParseExact(@event.StartOn, "MMMM dd yyyy", CultureInfo.InvariantCulture),
+                StartOn = startOn,
                 Price = @event.Price,
             };
 

@@ -1,6 +1,5 @@
 ﻿namespace CounterStrikeWeb.Models.Events
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
     using static Data.DataConstants;
@@ -12,6 +11,7 @@
         public string Name { get; init; }
 
         [Required]
+        [Display(Name = "Start On")]
         public string StartOn { get; init; }
 
         [Required]
