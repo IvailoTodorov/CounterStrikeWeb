@@ -1,10 +1,11 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using System;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Teams;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     public class TeamsController : Controller
     {
@@ -38,11 +39,22 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery]AllTeamsQueryModel query)
         {
-            var teams = this.data
-               .Teams
-               .OrderByDescending(x => x.Id)
+            var teamsQuery = this.data.Teams.AsQueryable();
+            var totalCars = teamsQuery.Count();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                teamsQuery = teamsQuery.Where(t =>
+                t.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                t.CoachName.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                t.Country.ToLower().Contains(query.SearchTerm.ToLower()));    
+            }
+
+            var teams = teamsQuery
+                .Skip((query.CurrentPage - 1) * AllTeamsQueryModel.TeamsPerPage)
+                .Take(AllTeamsQueryModel.TeamsPerPage)
                .Select(t => new TeamListingViewModel
                {
                    Id = t.Id,
@@ -51,7 +63,10 @@
                })
                .ToList();
 
-            return View(teams);
+            query.Teams = teams;
+            query.TotalCars = totalCars;
+
+            return View(query);
         }
 
         public IActionResult Details(int Id)

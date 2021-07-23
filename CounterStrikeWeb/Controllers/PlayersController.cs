@@ -41,10 +41,19 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery] AllPlayersQueryModel query)
         {
-            var players = this.data
-                .Players
+            var playersQuery = this.data.Players.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                playersQuery = playersQuery.Where(t =>
+                t.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                t.InGameName.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                t.Country.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            var players = playersQuery
                 .OrderByDescending(x => x.Id)
                 .Select(p => new PlayerListingViewModel
                 {
@@ -56,7 +65,9 @@
                 })
                 .ToList();
 
-            return View(players);
+            query.Players = players;
+
+            return View(query);
         }
 
         public IActionResult Details(int Id)

@@ -48,10 +48,18 @@
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery] AllMatchesQueryModel query)
         {
-            var matches = this.data
-               .Matches
+            var matchesQuery = this.data.Matches.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                matchesQuery = matchesQuery.Where(t =>
+                t.FirstTeam.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                t.SecondTeam.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            var matches = matchesQuery
                .OrderByDescending(x => x.Id)
                .Select(m => new MatchListingViewModel
                {
@@ -62,7 +70,9 @@
                })
                .ToList();
 
-            return View(matches);
+            query.Matches = matches;
+
+            return View(query);
         }
     }
 }

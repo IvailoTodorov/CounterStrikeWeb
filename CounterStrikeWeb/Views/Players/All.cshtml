@@ -1,11 +1,27 @@
-﻿@model IEnumerable<PlayerListingViewModel>
+﻿@model AllPlayersQueryModel
 
 @{
     ViewData["Title"] = "Players";
 }
 
+<form method="get">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control">
+            </div>
+
+            <div class="form-group col-md-3">
+                <input type="submit" class="btn btn-primary d-none" />
+            </div>
+
+        </div>
+    </div>
+</form>
+
 <div class="row">
-    @foreach (var player in Model)
+    @foreach (var player in Model.Players)
     {
         <div class="col-md-3">
             <div class="card mb-2">

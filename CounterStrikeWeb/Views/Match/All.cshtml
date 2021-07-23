@@ -1,11 +1,26 @@
-﻿@model IEnumerable<MatchListingViewModel>
+﻿@model AllMatchesQueryModel
 
 @{
     ViewData["Title"] = "Matches";
 }
 
+<form method="get">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control">
+            </div>
 
-@foreach (var match in Model)
+            <div class="form-group col-md-3">
+                <input type="submit" class="btn btn-primary d-none" />
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@foreach (var match in Model.Matches)
 {
     <div class="card text-center">
         <div class="card-header">
