@@ -53,5 +53,58 @@
 
             return View(teams);
         }
+
+        public IActionResult Details(int Id)
+        {
+            var team = this.data
+                .Teams
+                .Find(Id);
+
+            if (team == null)
+            {
+                return NotFound();
+            }
+
+            if (team.Rank == null)
+            {
+                team.Rank = 0;
+            }
+
+            var teamData = new TeamDetailsViewModel
+            {
+                Id = Id,
+                Name = team.Name,
+                Country = team.Country,
+                CoachName = team.CoachName,
+                AveragePlayersAge = team.AveragePlayersAge,
+                Logo = team.Logo,
+                Rank = team.Rank,
+                Players = team.Players,
+            };
+
+            return View(teamData);
+        }
+
+        //public IActionResult AddPlayerToTeam(int id)
+        //{
+
+
+
+        //var UserTrip = new UserTrip
+        //{
+        //    TripId = tripId,
+        //    UserId = this.User.Id
+        //};
+
+        //this.data.UserTrips.Add(UserTrip);
+
+        //var currTrip = this.data.Trips.Find(tripId);
+
+        //currTrip.Seats -= 1;
+
+        //this.data.SaveChanges();
+
+        //return Redirect("/Trips/All");
+        //}
     }
 }

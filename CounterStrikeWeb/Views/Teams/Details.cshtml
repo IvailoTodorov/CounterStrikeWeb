@@ -1,0 +1,49 @@
+﻿@model TeamDetailsViewModel
+
+@{
+    ViewData["Title"] = "Team Details";
+}
+
+
+<section class="py-5">
+    <div class="container">
+        <h1 style="margin: 2%; text-align: center;">Team</h1>
+        <div>
+            <div class="form-group text-center">
+                <img src=@Model.Logo class="img-fluid">
+            </div>
+            <div class="form-group">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" readonly class="form-control" value="@Model.Name">
+            </div>
+            <div class="form-group">
+                <label asp-for="CoachName">Coach</label>
+                <input asp-for="CoachName" readonly class="form-control" value="@Model.CoachName">
+            </div>
+            <div class="form-group">
+                <label asp-for="Rank">Rank</label>
+                <input asp-for="Rank" readonly class="form-control" value="@Model.Rank">
+            </div>
+            <div class="form-group">
+                <label asp-for="Country">Country</label>
+                <input asp-for="Country" readonly class="form-control" value="@Model.Country">
+            </div>
+            <div class="form-group">
+                <label asp-for="AveragePlayersAge">Average Players Age</label>
+                <input asp-for="AveragePlayersAge" readonly class="form-control" value="@Model.AveragePlayersAge">
+            </div>
+            @foreach (var player in Model.Players)
+            {
+                <div class="form-group">
+                    <label asp-for="@player.InGameName">Player</label>
+                    <input asp-for="@player.InGameName" readonly class="form-control" value="@player.InGameName">
+                </div>
+            }
+            <div class="form-group text-center">
+                <div class="button-holder">
+                    <a asp-controller="Teams" asp-action="AddPlayerToTeam" asp-route-id="@Model.Id" class="btn btn-primary btn-block text-uppercase">Add Player</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
