@@ -29,7 +29,12 @@
         <div class="card-body">
             <h5 class="card-title">@match.FirstTeam vs @match.SecondTeam</h5>
             <p class="card-text">@match.StartTime</p>
-            <a asp-controller="Match" asp-action="Details" asp-route-id="@match.Id" class="btn btn-primary">Details</a>
+            <a asp-controller="Match" asp-action="Details" 
+               asp-route-id="@match.Id"
+               asp-route-firstTeam="@match.FirstTeam"
+               asp-route-secondTeam="@match.SecondTeam" 
+               asp-route-startTime="@match.StartTime" 
+               class="btn btn-primary">Details</a>
         </div>
     </div>
 }

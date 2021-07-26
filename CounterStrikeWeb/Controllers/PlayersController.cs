@@ -44,6 +44,7 @@
         public IActionResult All([FromQuery] AllPlayersQueryModel query)
         {
             var playersQuery = this.data.Players.AsQueryable();
+            var totalPlayers = playersQuery.Count();
 
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
@@ -54,6 +55,8 @@
             }
 
             var players = playersQuery
+                .Skip((query.CurrentPage - 1) * AllPlayersQueryModel.PlayersPerPage)
+                .Take(AllPlayersQueryModel.PlayersPerPage)
                 .OrderByDescending(x => x.Id)
                 .Select(p => new PlayerListingViewModel
                 {
@@ -66,6 +69,7 @@
                 .ToList();
 
             query.Players = players;
+            query.TotalPlayers = totalPlayers;
 
             return View(query);
         }

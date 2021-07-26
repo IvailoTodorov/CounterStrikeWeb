@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.Linq;
+    using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
@@ -73,6 +74,30 @@
             query.Matches = matches;
 
             return View(query);
+        }
+
+        public IActionResult Details(int Id, string firstTeam, string secondTeam, string startTime)
+        {
+            var teams = new List<Team>();
+            var firstTeamData = this.data.Teams.FirstOrDefault(m => m.Name == firstTeam);
+            var secondTeamData = this.data.Teams.FirstOrDefault(m => m.Name == secondTeam);
+
+            if (firstTeamData == null || secondTeamData == null)
+            {
+                return NotFound();
+            }
+
+            teams.Add(firstTeamData);
+            teams.Add(secondTeamData);
+
+            var matchData = new MatchDetailsViewModel
+            {
+                Id = Id,
+                StartTime = startTime,
+                Teams = teams,
+            };
+
+            return View(matchData);
         }
     }
 }

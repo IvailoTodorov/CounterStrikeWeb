@@ -1,0 +1,141 @@
+﻿@model MatchDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@{
+    var firstTeam = Model.Teams.First();
+    var secondTeam = Model.Teams.Last();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial;
+            color: white;
+        }
+
+        .split {
+            height: 100%;
+            width: 50%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .left {
+            left: 0;
+            background-color: #111;
+        }
+
+        .right {
+            right: 0;
+            background-color: red;
+        }
+
+        .centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+            .centered img {
+                width: 150px;
+                border-radius: 50%;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="centered">
+        <label asp-for="@Model.StartTime"></label>
+        <input asp-for="@Model.StartTime" readonly class="form-control" value="@Model.StartTime">
+    </div>
+
+    <div class="split left">
+        <div class="centered">
+            <div class="row">
+                <div>
+                    <div class="left">
+                        <label asp-for="@Model.StartTime"></label>
+                        <input asp-for="@Model.StartTime" readonly class="form-control" value="@Model.StartTime">
+                    </div>
+                    <div class="form-group text-center">
+                        <img src=@firstTeam.Logo class="d-block w-100">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@firstTeam.Name">Name</label>
+                        <input asp-for="@firstTeam.Name" readonly class="form-control" value="@firstTeam.Name">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@firstTeam.CoachName">Coach</label>
+                        <input asp-for="@firstTeam.CoachName" readonly class="form-control" value="@firstTeam.CoachName">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@firstTeam.Rank">Rank</label>
+                        <input asp-for="@firstTeam.Rank" readonly class="form-control" value="@firstTeam.Rank">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@firstTeam.Country">Country</label>
+                        <input asp-for="@firstTeam.Country" readonly class="form-control" value="@firstTeam.Country">
+                    </div>
+                    @foreach (var player in firstTeam.Players)
+                    {
+                        <div class="form-group">
+                            <label asp-for="@player.InGameName">Player</label>
+                            <input asp-for="@player.InGameName" readonly class="form-control" value="@player.InGameName">
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="split right">
+        <div class="centered">
+            <div class="row">
+
+                <div>
+                    <div class="form-group text-center">
+                        <img src=@secondTeam.Logo class="d-block w-100">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@secondTeam.Name">Name</label>
+                        <input asp-for="@secondTeam.Name" readonly class="form-control" value="@secondTeam.Name">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@secondTeam.CoachName">Coach</label>
+                        <input asp-for="@secondTeam.CoachName" readonly class="form-control" value="@secondTeam.CoachName">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@secondTeam.Rank">Rank</label>
+                        <input asp-for="@secondTeam.Rank" readonly class="form-control" value="@secondTeam.Rank">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@secondTeam.Country">Country</label>
+                        <input asp-for="@secondTeam.Country" readonly class="form-control" value="@secondTeam.Country">
+                    </div>
+                    @foreach (var player in secondTeam.Players)
+                    {
+                        <div class="form-group">
+                            <label asp-for="@player.InGameName">Player</label>
+                            <input asp-for="@player.InGameName" readonly class="form-control" value="@player.InGameName">
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

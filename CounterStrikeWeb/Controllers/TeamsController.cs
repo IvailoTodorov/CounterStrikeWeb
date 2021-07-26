@@ -55,6 +55,7 @@
             var teams = teamsQuery
                 .Skip((query.CurrentPage - 1) * AllTeamsQueryModel.TeamsPerPage)
                 .Take(AllTeamsQueryModel.TeamsPerPage)
+                .OrderByDescending(x => x.Id)
                .Select(t => new TeamListingViewModel
                {
                    Id = t.Id,
