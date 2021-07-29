@@ -1,11 +1,11 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using System;
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
+    using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Linq;
 
     public class TeamsController : Controller
     {
@@ -42,7 +42,7 @@
         public IActionResult All([FromQuery]AllTeamsQueryModel query)
         {
             var teamsQuery = this.data.Teams.AsQueryable();
-            var totalCars = teamsQuery.Count();
+            var totalTeams = teamsQuery.Count();
 
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
@@ -65,7 +65,7 @@
                .ToList();
 
             query.Teams = teams;
-            query.TotalCars = totalCars;
+            query.TotalTeams = totalTeams;
 
             return View(query);
         }
@@ -92,35 +92,60 @@
                 Name = team.Name,
                 Country = team.Country,
                 CoachName = team.CoachName,
-                AveragePlayersAge = team.AveragePlayersAge,
                 Logo = team.Logo,
                 Rank = team.Rank,
                 Players = team.Players,
+                AveragePlayersAge = team.Players.Count(),
             };
 
             return View(teamData);
         }
 
-        //public IActionResult AddPlayerToTeam(int id)
-        //{
+        public IActionResult FindPlayerToAdd(int id, [FromQuery] AddPlayerToTeamViewModel query) 
+        {
+            var playersQuery = this.data.Players.AsQueryable();
+            var totalPlayers = playersQuery.Count();
 
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                playersQuery = playersQuery.Where(t =>
+                t.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                t.InGameName.ToLower().Contains(query.SearchTerm.ToLower()) ||
+                t.Country.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
 
+            var players = playersQuery
+                .Where(p => p.Team == null)
+                .Skip((query.CurrentPage - 1) * AddPlayerToTeamViewModel.PlayersPerPage)
+                .Take(AddPlayerToTeamViewModel.PlayersPerPage)
+                .OrderByDescending(x => x.Id)
+                .Select(p => new PlayerListingViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    InGameName = p.InGameName,
+                    Age = p.Age,
+                    Picture = p.Picture,
+                })
+                .ToList();
 
-        //var UserTrip = new UserTrip
-        //{
-        //    TripId = tripId,
-        //    UserId = this.User.Id
-        //};
+            query.Players = players;
+            query.TotalPlayers = totalPlayers;
+            query.TeamId = id;
 
-        //this.data.UserTrips.Add(UserTrip);
+            return View(query);
+        }
 
-        //var currTrip = this.data.Trips.Find(tripId);
+        public IActionResult AddPlayerToTeam(int playerId, int teamId)
+        {
+            var player = this.data.Players.Find(playerId);
+            var team = this.data.Teams.Find(teamId);
 
-        //currTrip.Seats -= 1;
+            player.TeamId = teamId;
 
-        //this.data.SaveChanges();
+            this.data.SaveChanges();
 
-        //return Redirect("/Trips/All");
-        //}
+            return RedirectToAction(nameof(All));
+        }
     }
 }

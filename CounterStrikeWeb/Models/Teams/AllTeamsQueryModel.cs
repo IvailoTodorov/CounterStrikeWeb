@@ -12,7 +12,7 @@
 
         public int CurrentPage { get; init; } = 1;
 
-        public int TotalCars { get; set; }
+        public int TotalTeams { get; set; }
 
         public IEnumerable<TeamListingViewModel> Teams { get; set; }
     }

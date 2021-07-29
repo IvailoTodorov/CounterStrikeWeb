@@ -11,11 +11,5 @@
         public int Age { get; init; }
 
         public string Picture { get; init; }
-
-        //public string Country { get; init; }
-
-        //public string InstagramUrl { get; init; }
-
-        //public string TwitterUrl { get; init; }
     }
 }
