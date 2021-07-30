@@ -13,28 +13,36 @@
                 <img src=@Model.Picture class="img-fluid">
             </div>
             <div class="form-group">
-                <label for="startPoint">Name</label>
-                <input type="text" readonly class="form-control" id="startPoint" name="StartPoint" value="@Model.Name">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" readonly class="form-control" value="@Model.Name">
             </div>
             <div class="form-group">
-                <label for="endPoint">InGame Name</label>
-                <input type="text" readonly class="form-control" id="endPoint" name="EndPoint" value="@Model.InGameName">
+                <label asp-for="InGameName">Name</label>
+                <input asp-for="InGameName" readonly class="form-control" value="@Model.InGameName">
             </div>
             <div class="form-group">
-                <label for="departureTime">Age</label>
-                <input type="number" readonly class="form-control" id="departureTime" value="@Model.Age">
+                <label asp-for="Age">Name</label>
+                <input asp-for="Age" readonly class="form-control" value="@Model.Age">
             </div>
             <div class="form-group">
-                <label for="seats">Country</label>
-                <input type="text" readonly class="form-control" id="seats" name="Seats" value="@Model.Country">
+                <label asp-for="Country">Name</label>
+                <input asp-for="Country" readonly class="form-control" value="@Model.Country">
+            </div>
+            @*<div class="form-group">
+                <label asp-for="TeamName">Name</label>
+                <input asp-for="TeamName" readonly class="form-control" value="@Model.TeamName">
             </div>
             <div class="form-group">
-                <label for="description">Twitter</label>
-                <input type="text" readonly class="form-control" id="description" name="Description" value="@Model.TwitterUrl">
+                <label asp-for="TeamLogo">Name</label>
+                <input asp-for="TeamLogo" readonly class="form-control" value="@Model.TeamLogo">
+            </div>*@
+            <div class="form-group">
+                <label asp-for="TwitterUrl">Name</label>
+                <input asp-for="TwitterUrl" readonly class="form-control" value="@Model.TwitterUrl">
             </div>
             <div class="form-group">
-                <label for="description">Instagram</label>
-                <input type="text" readonly class="form-control" id="description" name="Description" value="@Model.InstagramUrl">
+                <label asp-for="InstagramUrl">Name</label>
+                <input asp-for="InstagramUrl" readonly class="form-control" value="@Model.InstagramUrl">
             </div>
             <div class="form-group text-center">
                 <div class="button-holder">

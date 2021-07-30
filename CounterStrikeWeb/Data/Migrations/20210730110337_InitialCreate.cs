@@ -169,6 +169,28 @@ namespace CounterStrikeWeb.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Matches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstTeam = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    SecondTeam = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Matches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Matches_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Teams",
                 columns: table => new
                 {
@@ -194,32 +216,27 @@ namespace CounterStrikeWeb.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Matches",
+                name: "MatchTeam",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstTeam = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    SecondTeam = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: true),
-                    TeamId = table.Column<int>(type: "int", nullable: true)
+                    MatchesId = table.Column<int>(type: "int", nullable: false),
+                    TeamsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Matches", x => x.Id);
+                    table.PrimaryKey("PK_MatchTeam", x => new { x.MatchesId, x.TeamsId });
                     table.ForeignKey(
-                        name: "FK_Matches_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
+                        name: "FK_MatchTeam_Matches_MatchesId",
+                        column: x => x.MatchesId,
+                        principalTable: "Matches",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Matches_Teams_TeamId",
-                        column: x => x.TeamId,
+                        name: "FK_MatchTeam_Teams_TeamsId",
+                        column: x => x.TeamsId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -293,9 +310,9 @@ namespace CounterStrikeWeb.Data.Migrations
                 column: "EventId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matches_TeamId",
-                table: "Matches",
-                column: "TeamId");
+                name: "IX_MatchTeam_TeamsId",
+                table: "MatchTeam",
+                column: "TeamsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Players_TeamId",
@@ -326,7 +343,7 @@ namespace CounterStrikeWeb.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Matches");
+                name: "MatchTeam");
 
             migrationBuilder.DropTable(
                 name: "Players");
@@ -336,6 +353,9 @@ namespace CounterStrikeWeb.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Matches");
 
             migrationBuilder.DropTable(
                 name: "Teams");

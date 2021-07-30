@@ -141,7 +141,7 @@
             var player = this.data.Players.Find(playerId);
             var team = this.data.Teams.Find(teamId);
 
-            player.TeamId = teamId;
+            player.Team = team;
 
             this.data.SaveChanges();
 

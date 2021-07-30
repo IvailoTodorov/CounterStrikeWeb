@@ -29,12 +29,17 @@
         <div class="card-body">
             <h5 class="card-title">@match.FirstTeam vs @match.SecondTeam</h5>
             <p class="card-text">@match.StartTime</p>
-            <a asp-controller="Match" asp-action="Details" 
+            <a asp-controller="Match" asp-action="Details"
                asp-route-id="@match.Id"
                asp-route-firstTeam="@match.FirstTeam"
-               asp-route-secondTeam="@match.SecondTeam" 
-               asp-route-startTime="@match.StartTime" 
+               asp-route-secondTeam="@match.SecondTeam"
+               asp-route-startTime="@match.StartTime"
                class="btn btn-primary">Details</a>
         </div>
     </div>
+}
+
+@if (!Model.Matches.Any())
+{
+    <h2 class="text-center">No matches found!</h2>
 }

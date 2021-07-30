@@ -42,6 +42,12 @@
                 .HasForeignKey(c => c.TeamId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder
+                .Entity<Team>()
+                .HasMany(m => m.Matches)
+                .WithMany(t => t.Teams);
+                
+
             base.OnModelCreating(builder);
         }
 

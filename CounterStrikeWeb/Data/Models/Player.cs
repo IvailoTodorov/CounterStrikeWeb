@@ -36,7 +36,7 @@
 
         public int? TeamId { get; set; }
 
-        public Team Team { get; init; }
+        public Team Team { get; set; }
 
     }
 }

@@ -5,7 +5,7 @@
 
     public class AddPlayerToTeamViewModel
     {
-        public const int PlayersPerPage = 1;
+        public const int PlayersPerPage = 4;
 
         [Display(Name = "Search")]
         public string SearchTerm { get; init; }

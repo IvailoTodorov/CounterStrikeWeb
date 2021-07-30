@@ -42,6 +42,9 @@
                 StartTime = DateTime.ParseExact(match.StartTime, "MMMM dd yyyy", CultureInfo.InvariantCulture),
             };
 
+            matchData.Teams.Add(firstTeam);
+            matchData.Teams.Add(secondTeam);
+
             this.data.Matches.Add(matchData);
 
             this.data.SaveChanges();
