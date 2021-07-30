@@ -31,7 +31,7 @@
 
         public int? EventId { get; set; }
 
-        public Event Event { get; init; }
+        public Event Event { get; set; }
 
         public IEnumerable<Player> Players { get; init; }
 

@@ -1,11 +1,13 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Events;
+    using CounterStrikeWeb.Models.Teams;
     using Microsoft.AspNetCore.Mvc;
 
     public class EventsController : Controller
@@ -62,6 +64,49 @@
                .ToList();
 
             return View(events);
+        }
+
+        public IActionResult FindTeamToAdd(int id, [FromQuery] AddTeamToEventViewModel query)
+        {
+            var teamsQuery = this.data.Teams.AsQueryable();
+            var totalTeams = teamsQuery.Count();
+
+            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
+            {
+                teamsQuery = teamsQuery.Where(t =>
+                t.Name.ToLower().Contains(query.SearchTerm.ToLower()));
+            }
+
+            var teams = teamsQuery
+                .Where(t => t.Event == null)
+                .Skip((query.CurrentPage - 1) * AddTeamToEventViewModel.TeamsPerPage)
+                .Take(AddTeamToEventViewModel.TeamsPerPage)
+                .OrderByDescending(x => x.Id)
+                .Select(t => new TeamListingViewModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    Logo = t.Logo,
+                })
+                .ToList();
+
+            query.Teams = teams;
+            query.TotalTeams = totalTeams;
+            query.EventId = id;
+
+            return View(query);
+        }
+
+        public IActionResult AddTeamToEvent(int teamId, int eventId)
+        {
+            var team = this.data.Teams.Find(teamId);
+            var @event = this.data.Events.Find(eventId);
+
+            team.Event = @event;
+
+            this.data.SaveChanges();
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class AllTeamsQueryModel
+    public class AddTeamToEventViewModel
     {
         public const int TeamsPerPage = 4;
 
@@ -13,6 +13,8 @@
         public int CurrentPage { get; init; } = 1;
 
         public int TotalTeams { get; set; }
+
+        public int EventId { get; set; }
 
         public IEnumerable<TeamListingViewModel> Teams { get; set; }
     }
