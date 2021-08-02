@@ -2,6 +2,7 @@ namespace CounterStrikeWeb
 {
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Infrastrucure;
+    using CounterStrikeWeb.Services.Players;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -38,6 +39,9 @@ namespace CounterStrikeWeb
 
             services
                 .AddControllersWithViews();
+
+            services
+                .AddTransient<IPlayerService, PlayerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

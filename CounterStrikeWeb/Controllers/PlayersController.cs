@@ -4,14 +4,19 @@
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Players;
+    using CounterStrikeWeb.Services.Players;
     using Microsoft.AspNetCore.Mvc;
 
     public class PlayersController : Controller
     {
+        private readonly IPlayerService players;
         private readonly CounterStrikeDbContext data;
 
-        public PlayersController(CounterStrikeDbContext data) 
-            => this.data = data;
+        public PlayersController(IPlayerService players, CounterStrikeDbContext data) 
+        {
+            this.players = players;
+            this.data = data;
+        }
 
         public IActionResult Add() => View();
 
@@ -43,33 +48,13 @@
 
         public IActionResult All([FromQuery] AllPlayersQueryModel query)
         {
-            var playersQuery = this.data.Players.AsQueryable();
-            var totalPlayers = playersQuery.Count();
+            var queryResult = this.players.All(
+                query.SearchTerm,
+                query.CurrentPage,
+                AllPlayersQueryModel.PlayersPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                playersQuery = playersQuery.Where(t =>
-                t.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                t.InGameName.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                t.Country.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            var players = playersQuery
-                .Skip((query.CurrentPage - 1) * AllPlayersQueryModel.PlayersPerPage)
-                .Take(AllPlayersQueryModel.PlayersPerPage)
-                .OrderByDescending(x => x.Id)
-                .Select(p => new PlayerListingViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    InGameName = p.InGameName,
-                    Age = p.Age,
-                    Picture = p.Picture,
-                })
-                .ToList();
-
-            query.Players = players;
-            query.TotalPlayers = totalPlayers;
+            query.TotalPlayers = queryResult.TotalPlayers;
+            query.Players = queryResult.Players;
 
             return View(query);
         }
@@ -100,6 +85,11 @@
             };
 
             return View(playerData);
+        }
+
+        public IActionResult Mine(int Id)
+        {
+            return View();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace CounterStrikeWeb.Models.Players
+﻿namespace CounterStrikeWeb.Models.Api.Players
 {
-    public class PlayerListingViewModel
+    public class PlayerResponseModel
     {
         public int Id { get; init; }
 

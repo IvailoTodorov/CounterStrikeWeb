@@ -1,5 +1,6 @@
 ﻿namespace CounterStrikeWeb.Models.Players
 {
+    using CounterStrikeWeb.Services.Players;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -14,6 +15,6 @@
 
         public int TotalPlayers { get; set; }
 
-        public IEnumerable<PlayerListingViewModel> Players { get; set; }
+        public IEnumerable<PlayerServiceModel> Players { get; set; }
     }
 }
