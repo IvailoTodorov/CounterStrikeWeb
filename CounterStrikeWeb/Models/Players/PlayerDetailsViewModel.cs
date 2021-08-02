@@ -18,9 +18,9 @@
 
         public string TwitterUrl { get; init; }
 
-        public string TeamName { get; init; }
+        //public string TeamName { get; init; }
 
-        public string TeamLogo { get; init; }
+        //public string TeamLogo { get; init; }
 
         //public string Crosshair { get; init; }
 

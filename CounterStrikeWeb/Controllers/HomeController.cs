@@ -1,11 +1,11 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using System.Diagnostics;
-    using System.Linq;
-    using Microsoft.AspNetCore.Mvc;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Models;
-    using CounterStrikeWeb.Models.Players;
+    using CounterStrikeWeb.Services.Players;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
+    using System.Linq;
 
     public class HomeController : Controller
     {
@@ -19,7 +19,7 @@
             var players = this.data
               .Players
               .OrderByDescending(x => x.Id)
-              .Select(p => new PlayerListingViewModel
+              .Select(p => new PlayerServiceModel
               {
                   Id = p.Id,
                   Name = p.Name,

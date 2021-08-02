@@ -4,6 +4,7 @@
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
+    using CounterStrikeWeb.Services.Players;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
 
@@ -119,7 +120,7 @@
                 .Skip((query.CurrentPage - 1) * AddPlayerToTeamViewModel.PlayersPerPage)
                 .Take(AddPlayerToTeamViewModel.PlayersPerPage)
                 .OrderByDescending(x => x.Id)
-                .Select(p => new PlayerListingViewModel
+                .Select(p => new PlayerServiceModel
                 {
                     Id = p.Id,
                     Name = p.Name,
