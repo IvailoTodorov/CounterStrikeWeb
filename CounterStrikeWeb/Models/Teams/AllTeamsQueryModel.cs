@@ -1,5 +1,6 @@
 ﻿namespace CounterStrikeWeb.Models.Teams
 {
+    using CounterStrikeWeb.Services.Teams;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -14,6 +15,6 @@
 
         public int TotalTeams { get; set; }
 
-        public IEnumerable<TeamListingViewModel> Teams { get; set; }
+        public IEnumerable<TeamServiceModel> Teams { get; set; }
     }
 }

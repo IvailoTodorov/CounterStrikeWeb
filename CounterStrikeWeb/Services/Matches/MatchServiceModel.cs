@@ -1,6 +1,6 @@
-﻿namespace CounterStrikeWeb.Models.Match
+﻿namespace CounterStrikeWeb.Services.Matches
 {
-    public class MatchListingViewModel
+    public class MatchServiceModel
     {
         public int Id { get; init; }
 

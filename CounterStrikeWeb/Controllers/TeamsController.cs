@@ -1,19 +1,24 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using System.Linq;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
     using CounterStrikeWeb.Services.Players;
+    using CounterStrikeWeb.Services.Teams;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
 
     public class TeamsController : Controller
     {
+        private readonly ITeamService teams;
         private readonly CounterStrikeDbContext data;
 
-        public TeamsController(CounterStrikeDbContext data)
-           => this.data = data;
+        public TeamsController(ITeamService teams, CounterStrikeDbContext data)
+        {
+            this.teams = teams;
+            this.data = data;
+        }
 
         public IActionResult Add() => View();
 
@@ -42,31 +47,13 @@
 
         public IActionResult All([FromQuery]AllTeamsQueryModel query)
         {
-            var teamsQuery = this.data.Teams.AsQueryable();
-            var totalTeams = teamsQuery.Count();
+            var queryResult = this.teams.All(
+                query.SearchTerm,
+                query.CurrentPage,
+                AllTeamsQueryModel.TeamsPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                teamsQuery = teamsQuery.Where(t =>
-                t.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                t.CoachName.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                t.Country.ToLower().Contains(query.SearchTerm.ToLower()));    
-            }
-
-            var teams = teamsQuery
-                .Skip((query.CurrentPage - 1) * AllTeamsQueryModel.TeamsPerPage)
-                .Take(AllTeamsQueryModel.TeamsPerPage)
-                .OrderByDescending(x => x.Id)
-               .Select(t => new TeamListingViewModel
-               {
-                   Id = t.Id,
-                   Name = t.Name,
-                   Logo = t.Logo,
-               })
-               .ToList();
-
-            query.Teams = teams;
-            query.TotalTeams = totalTeams;
+            query.Teams = queryResult.Teams;
+            query.TotalTeams = queryResult.TotalTeams;
 
             return View(query);
         }

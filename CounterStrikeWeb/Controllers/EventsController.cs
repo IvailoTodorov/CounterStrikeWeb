@@ -1,21 +1,26 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Events;
     using CounterStrikeWeb.Models.Teams;
+    using CounterStrikeWeb.Services.Events;
+    using CounterStrikeWeb.Services.Teams;
     using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Globalization;
+    using System.Linq;
 
     public class EventsController : Controller
     {
+        private readonly IEventService events;
         private readonly CounterStrikeDbContext data;
 
-        public EventsController(CounterStrikeDbContext data)
-            => this.data = data;
+        public EventsController(IEventService events, CounterStrikeDbContext data)
+        {
+            this.events = events;
+            this.data = data;
+        }
 
         public IActionResult Add() => View();
 
@@ -68,30 +73,13 @@
 
         public IActionResult FindTeamToAdd(int id, [FromQuery] AddTeamToEventViewModel query)
         {
-            var teamsQuery = this.data.Teams.AsQueryable();
-            var totalTeams = teamsQuery.Count();
+            var queryResult = this.events.FindTeamToAdd(
+                query.SearchTerm,
+                query.CurrentPage,
+                AddTeamToEventViewModel.TeamsPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                teamsQuery = teamsQuery.Where(t =>
-                t.Name.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            var teams = teamsQuery
-                .Where(t => t.Event == null)
-                .Skip((query.CurrentPage - 1) * AddTeamToEventViewModel.TeamsPerPage)
-                .Take(AddTeamToEventViewModel.TeamsPerPage)
-                .OrderByDescending(x => x.Id)
-                .Select(t => new TeamListingViewModel
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    Logo = t.Logo,
-                })
-                .ToList();
-
-            query.Teams = teams;
-            query.TotalTeams = totalTeams;
+            query.Teams = queryResult.Teams;
+            query.TotalTeams = queryResult.TotalTeams;
             query.EventId = id;
 
             return View(query);

@@ -2,7 +2,10 @@ namespace CounterStrikeWeb
 {
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Infrastrucure;
+    using CounterStrikeWeb.Services.Events;
+    using CounterStrikeWeb.Services.Matches;
     using CounterStrikeWeb.Services.Players;
+    using CounterStrikeWeb.Services.Teams;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -42,6 +45,15 @@ namespace CounterStrikeWeb
 
             services
                 .AddTransient<IPlayerService, PlayerService>();
+
+            services
+                .AddTransient<ITeamService, TeamService>();
+
+            services
+                .AddTransient<IMatchService, MatchService>();
+
+            services
+                .AddTransient<IEventService, EventService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -9,13 +9,18 @@
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Match;
     using CounterStrikeWeb.Models.Matches;
+    using CounterStrikeWeb.Services.Matches;
 
     public class MatchController : Controller
     {
+        private readonly IMatchService matches;
         private readonly CounterStrikeDbContext data;
 
-        public MatchController(CounterStrikeDbContext data)
-            => this.data = data;
+        public MatchController(IMatchService matches, CounterStrikeDbContext data)
+        {
+            this.matches = matches;
+            this.data = data;
+        }
 
         public IActionResult Add() => View();
 
@@ -54,27 +59,9 @@
 
         public IActionResult All([FromQuery] AllMatchesQueryModel query)
         {
-            var matchesQuery = this.data.Matches.AsQueryable();
+            var queryResult = this.matches.All(query.SearchTerm);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                matchesQuery = matchesQuery.Where(t =>
-                t.FirstTeam.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                t.SecondTeam.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            var matches = matchesQuery
-               .OrderByDescending(x => x.Id)
-               .Select(m => new MatchListingViewModel
-               {
-                   Id = m.Id,
-                   FirstTeam = m.FirstTeam,
-                   SecondTeam = m.SecondTeam,
-                   StartTime = m.StartTime.ToString("MMMM dd yyyy")
-               })
-               .ToList();
-
-            query.Matches = matches;
+            query.Matches = queryResult.Matches;
 
             return View(query);
         }
