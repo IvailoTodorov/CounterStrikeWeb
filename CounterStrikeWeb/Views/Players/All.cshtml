@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Players";
+    ViewBag.AllowPlayerEdit = true;
 }
 
 <form method="get">
@@ -29,6 +30,11 @@
                 <div class="card-body text-center">
                     <h5 class="card-title text-center">@player.InGameName</h5>
                     <a asp-controller="Players" asp-action="Details" asp-route-id="@player.Id" class="btn btn-primary">View More</a>
+                    @if (ViewBag.AllowPlayerEdit = true)
+                    {
+                        <a asp-controller="Players" asp-action="Edit" asp-route-id="@player.Id" class="btn btn-warning">Edit</a>
+                        <a asp-controller="Players" asp-action="Delete" asp-route-id="@player.Id" class="btn btn-danger">Delete</a>
+                    }
                 </div>
             </div>
         </div>

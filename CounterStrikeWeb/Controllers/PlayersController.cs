@@ -1,8 +1,6 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using System.Linq;
     using CounterStrikeWeb.Data;
-    using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Services.Players;
     using Microsoft.AspNetCore.Mvc;
@@ -10,38 +8,30 @@
     public class PlayersController : Controller
     {
         private readonly IPlayerService players;
-        private readonly CounterStrikeDbContext data;
 
-        public PlayersController(IPlayerService players, CounterStrikeDbContext data) 
+        public PlayersController(IPlayerService players)
         {
             this.players = players;
-            this.data = data;
         }
 
         public IActionResult Add() => View();
 
         [HttpPost]
-        public IActionResult Add(AddPlayerFormModel player)
+        public IActionResult Add(PlayerFormModel player)
         {
             if (!ModelState.IsValid)
             {
                 return View(player);
             }
 
-            var playerData = new Player
-            {
-                Name = player.Name,
-                InGameName = player.InGameName,
-                Age = player.Age,
-                Country = player.Country,
-                Picture = player.Picture,
-                InstagramUrl = player.InstagramUrl,
-                TwitterUrl = player.TwitterUrl,
-            };
-
-            this.data.Players.Add(playerData);
-
-            this.data.SaveChanges();
+            this.players.Create(
+                player.Name,
+                player.InGameName,
+                player.Age,
+                player.Country,
+                player.Picture,
+                player.InstagramUrl,
+                player.TwitterUrl);
 
             return RedirectToAction(nameof(All));
         }
@@ -59,37 +49,53 @@
             return View(query);
         }
 
-        public IActionResult Details(int Id)
+        public IActionResult Details(int id)
         {
-            var player = this.data
-                .Players
-                .Find(Id);
+            var playerData = this.players.Details(id);
 
-            if (player == null)
+            if (playerData == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            var playerData = new PlayerDetailsViewModel
+            return View(playerData);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var player = this.players.Details(id);
+
+            return View(new PlayerFormModel
             {
-                Id = Id,
                 Name = player.Name,
                 InGameName = player.InGameName,
                 Age = player.Age,
                 Country = player.Country,
                 Picture = player.Picture,
                 InstagramUrl = player.InstagramUrl,
-                TwitterUrl = player.TwitterUrl,
-                //TeamName = player.Team.Name,
-                //TeamLogo = player.Team.Logo,
-            };
-
-            return View(playerData);
+                TwitterUrl = player.TwitterUrl
+            });
         }
-
-        public IActionResult Mine(int Id)
+        [HttpPost]
+        public IActionResult Edit(int id, PlayerFormModel playerData)
         {
-            return View();
+            var playerIsEdited = this.players.Edit(
+            id,
+            playerData.Name,
+            playerData.InGameName,
+            playerData.Age,
+            playerData.Country,
+            playerData.Picture,
+            playerData.InstagramUrl,
+            playerData.TwitterUrl);
+
+            if (!playerIsEdited)
+            {
+                return BadRequest();
+            }
+
+            return RedirectToAction(nameof(All));
         }
     }
 }
