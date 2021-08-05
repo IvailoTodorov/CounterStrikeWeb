@@ -1,6 +1,7 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
     using CounterStrikeWeb.Data;
+    using CounterStrikeWeb.Infrastrucure;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Services.Players;
     using Microsoft.AspNetCore.Mvc;
@@ -80,6 +81,11 @@
         [HttpPost]
         public IActionResult Edit(int id, PlayerFormModel playerData)
         {
+            if (!User.IsAdmin())
+            {
+                return BadRequest();
+            }
+
             var playerIsEdited = this.players.Edit(
             id,
             playerData.Name,

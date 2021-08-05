@@ -4,14 +4,16 @@ using CounterStrikeWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CounterStrikeWeb.Data.Migrations
 {
     [DbContext(typeof(CounterStrikeDbContext))]
-    partial class CounterStrikeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210804150619_UserFullNameColumn")]
+    partial class UserFullNameColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -17,5 +17,10 @@
         public const int PlayerMinAge = 1;
         public const int PlayerMaxAge = 150;
 
+        public const int UserFullNameMinLength = 4;
+        public const int UserFullNameMaxLength = 40;
+        public const int UserPasswordMinLength = 4;
+        public const int UserPasswordMaxLength = 100;
+
     }
 }

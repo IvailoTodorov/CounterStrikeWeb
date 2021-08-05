@@ -1,6 +1,7 @@
 namespace CounterStrikeWeb
 {
     using CounterStrikeWeb.Data;
+    using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Infrastrucure;
     using CounterStrikeWeb.Services.Events;
     using CounterStrikeWeb.Services.Matches;
@@ -31,29 +32,21 @@ namespace CounterStrikeWeb
                 .AddDatabaseDeveloperPageExceptionFilter();
 
             services
-                .AddDefaultIdentity<IdentityUser>(options => 
+                .AddDefaultIdentity<User>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireLowercase = false;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<CounterStrikeDbContext>();
 
-            services
-                .AddControllersWithViews();
-
-            services
-                .AddTransient<IPlayerService, PlayerService>();
-
-            services
-                .AddTransient<ITeamService, TeamService>();
-
-            services
-                .AddTransient<IMatchService, MatchService>();
-
-            services
-                .AddTransient<IEventService, EventService>();
+            services.AddControllersWithViews();
+            services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<ITeamService, TeamService>();
+            services.AddTransient<IMatchService, MatchService>();
+            services.AddTransient<IEventService, EventService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

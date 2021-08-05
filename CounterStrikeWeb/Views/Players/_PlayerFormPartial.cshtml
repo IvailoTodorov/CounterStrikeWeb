@@ -1,0 +1,50 @@
+﻿@model PlayerFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2>@ViewBag.Title</h2>
+
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Player Name">
+                    <span asp-validation-for="Name" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InGameName"></label>
+                    <input asp-for="InGameName" class="form-control" placeholder="s1mple, ropz, etc...">
+                    <span asp-validation-for="InGameName" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Age"></label>
+                    <input asp-for="Age" class="form-control" placeholder="1-150">
+                    <span asp-validation-for="Age" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Picture"></label>
+                    <input asp-for="Picture" class="form-control" placeholder="Picture URL">
+                    <span asp-validation-for="Picture" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Country"></label>
+                    <input asp-for="Country" class="form-control" placeholder="Bulgaria, Brazil, etc...">
+                    <span asp-validation-for="Country" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InstagramUrl"></label>
+                    <input asp-for="InstagramUrl" class="form-control" placeholder="https://instagram.com/">
+                    <span asp-validation-for="InstagramUrl" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TwitterUrl"></label>
+                    <input asp-for="TwitterUrl" class="form-control" placeholder="https://twitter.com/">
+                    <span asp-validation-for="TwitterUrl" class="small text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>

@@ -4,7 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using CounterStrikeWeb.Data.Models;
 
-    public class CounterStrikeDbContext : IdentityDbContext
+    public class CounterStrikeDbContext : IdentityDbContext<User>
     {
         public CounterStrikeDbContext(DbContextOptions<CounterStrikeDbContext> options)
             : base(options)
