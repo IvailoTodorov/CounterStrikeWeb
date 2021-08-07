@@ -1,6 +1,5 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Infrastrucure;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Services.Players;

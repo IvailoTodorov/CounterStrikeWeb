@@ -60,9 +60,7 @@
 
         public IActionResult Details(int Id)
         {
-            var team = this.data
-                .Teams
-                .Find(Id);
+            var team = this.teams.Find(Id);
 
             if (team == null)
             {

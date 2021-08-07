@@ -1,6 +1,7 @@
 ﻿namespace CounterStrikeWeb.Services.Teams
 {
     using CounterStrikeWeb.Data;
+    using CounterStrikeWeb.Data.Models;
     using System.Linq;
 
     public class TeamService : ITeamService
@@ -46,5 +47,10 @@
                 Teams = teams
             };
         }
+
+        public Team Find(int Id)
+            => this.data
+                .Teams
+                .Find(Id);
     }
 }

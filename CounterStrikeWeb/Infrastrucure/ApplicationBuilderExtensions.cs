@@ -9,7 +9,7 @@
     using System;
     using System.Threading.Tasks;
 
-    using static WebConstants;
+    using static Areas.Admin.AdminConstrants;
 
     public static class ApplicationBuilderExtensions
     {
