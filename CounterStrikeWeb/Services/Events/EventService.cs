@@ -1,5 +1,7 @@
 ﻿namespace CounterStrikeWeb.Services.Events
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Services.Teams;
     using System.Linq;
@@ -7,9 +9,14 @@
     public class EventService : IEventService
     {
         private readonly CounterStrikeDbContext data;
+        private readonly IMapper mapper;
 
-        public EventService(CounterStrikeDbContext data)
-            => this.data = data;
+        public EventService(CounterStrikeDbContext data,
+            IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper;
+        }
 
         public EventQueryServiceModel FindTeamToAdd(
             string searchTerm,
@@ -30,12 +37,7 @@
                 .Skip((currentPage - 1) * teamsPerPage)
                 .Take(teamsPerPage)
                 .OrderByDescending(x => x.Id)
-                .Select(t => new TeamServiceModel
-                {
-                    Id = t.Id,
-                    Name = t.Name,
-                    Logo = t.Logo,
-                })
+                .ProjectTo<TeamServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
 
             return new EventQueryServiceModel

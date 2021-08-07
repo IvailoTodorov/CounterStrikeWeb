@@ -1,15 +1,22 @@
-﻿namespace CounterStrikeWeb.Services.Players
+﻿namespace CounterStrikeWeb.Services.Players.Models
 {
     using System.Linq;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
 
     public class PlayerService : IPlayerService
     {
         private readonly CounterStrikeDbContext data;
+        private readonly IMapper mapper;
 
-        public PlayerService(CounterStrikeDbContext data)
-            => this.data = data;
+        public PlayerService(CounterStrikeDbContext data, 
+            IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper;
+        }
 
         public int Create(
             string name,
@@ -88,14 +95,7 @@
                 .Skip((currentPage - 1) * playersPerPage)
                 .Take(playersPerPage)
                 .OrderByDescending(x => x.Id)
-                .Select(p => new PlayerServiceModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    InGameName = p.InGameName,
-                    Age = p.Age,
-                    Picture = p.Picture,
-                })
+                .ProjectTo<PlayerServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
 
             return new PlayerQueryServiceModel
@@ -111,17 +111,7 @@
         => this.data
             .Players
             .Where(x => x.Id == id)
-            .Select(p => new PlayerDetailsServiceModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                InGameName = p.InGameName,
-                Country = p.Country,
-                Age = p.Age,
-                Picture = p.Picture,
-                InstagramUrl = p.InstagramUrl,
-                TwitterUrl = p.TwitterUrl,
-            })
+            .ProjectTo<PlayerDetailsServiceModel>(this.mapper.ConfigurationProvider)
             .FirstOrDefault();
             
     }

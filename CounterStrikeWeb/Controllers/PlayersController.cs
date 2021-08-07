@@ -1,17 +1,21 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using AutoMapper;
     using CounterStrikeWeb.Infrastrucure;
     using CounterStrikeWeb.Models.Players;
-    using CounterStrikeWeb.Services.Players;
+    using CounterStrikeWeb.Services.Players.Models;
     using Microsoft.AspNetCore.Mvc;
 
     public class PlayersController : Controller
     {
         private readonly IPlayerService players;
+        private readonly IMapper mapper;
 
-        public PlayersController(IPlayerService players)
+        public PlayersController(IPlayerService players,
+            IMapper mapper)
         {
             this.players = players;
+            this.mapper = mapper;
         }
 
         public IActionResult Add() => View();
@@ -66,16 +70,9 @@
         {
             var player = this.players.Details(id);
 
-            return View(new PlayerFormModel
-            {
-                Name = player.Name,
-                InGameName = player.InGameName,
-                Age = player.Age,
-                Country = player.Country,
-                Picture = player.Picture,
-                InstagramUrl = player.InstagramUrl,
-                TwitterUrl = player.TwitterUrl
-            });
+            var playerForm = this.mapper.Map<PlayerFormModel>(player);
+
+            return View(playerForm);
         }
         [HttpPost]
         public IActionResult Edit(int id, PlayerFormModel playerData)

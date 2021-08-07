@@ -1,4 +1,4 @@
-﻿namespace CounterStrikeWeb.Services.Players
+﻿namespace CounterStrikeWeb.Services.Players.Models
 {
     public interface IPlayerService
     {

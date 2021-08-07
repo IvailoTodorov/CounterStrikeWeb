@@ -1,32 +1,32 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using System.Linq;
+    using System.Diagnostics;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Models;
-    using CounterStrikeWeb.Services.Players;
+    using CounterStrikeWeb.Services.Players.Models;
     using Microsoft.AspNetCore.Mvc;
-    using System.Diagnostics;
-    using System.Linq;
 
     public class HomeController : Controller
     {
         private readonly CounterStrikeDbContext data;
+        private readonly IMapper mapper;
 
-        public HomeController(CounterStrikeDbContext data)
-            => this.data = data;
+        public HomeController(CounterStrikeDbContext data,
+            IMapper mapper)
+        {
+            this.data = data;
+            this.mapper = mapper;
+        }
 
         public IActionResult Index() 
         {
             var players = this.data
               .Players
               .OrderByDescending(x => x.Id)
-              .Select(p => new PlayerServiceModel
-              {
-                  Id = p.Id,
-                  Name = p.Name,
-                  InGameName = p.InGameName,
-                  Age = p.Age,
-                  Picture = p.Picture,
-              })
+              .ProjectTo<PlayerServiceModel>(this.mapper.ConfigurationProvider)
               .Take(5)
               .ToList();
 

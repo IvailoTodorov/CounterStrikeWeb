@@ -1,7 +1,7 @@
 ﻿namespace CounterStrikeWeb.Controllers.Api
 {
     using CounterStrikeWeb.Models.Api.Players;
-    using CounterStrikeWeb.Services.Players;
+    using CounterStrikeWeb.Services.Players.Models;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]

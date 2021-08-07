@@ -1,11 +1,13 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
     using System.Linq;
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
-    using CounterStrikeWeb.Services.Players;
+    using CounterStrikeWeb.Services.Players.Models;
     using CounterStrikeWeb.Services.Teams;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +15,15 @@
     {
         private readonly ITeamService teams;
         private readonly CounterStrikeDbContext data;
+        private readonly IMapper mapper;
 
-        public TeamsController(ITeamService teams, CounterStrikeDbContext data)
+        public TeamsController(ITeamService teams, 
+            CounterStrikeDbContext data,
+            IMapper mapper)
         {
             this.teams = teams;
             this.data = data;
+            this.mapper = mapper;
         }
 
         public IActionResult Add() => View();
@@ -105,14 +111,7 @@
                 .Skip((query.CurrentPage - 1) * AddPlayerToTeamViewModel.PlayersPerPage)
                 .Take(AddPlayerToTeamViewModel.PlayersPerPage)
                 .OrderByDescending(x => x.Id)
-                .Select(p => new PlayerServiceModel
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    InGameName = p.InGameName,
-                    Age = p.Age,
-                    Picture = p.Picture,
-                })
+                .ProjectTo<PlayerServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
 
             query.Players = players;

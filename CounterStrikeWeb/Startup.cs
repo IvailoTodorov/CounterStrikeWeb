@@ -5,7 +5,7 @@ namespace CounterStrikeWeb
     using CounterStrikeWeb.Infrastrucure;
     using CounterStrikeWeb.Services.Events;
     using CounterStrikeWeb.Services.Matches;
-    using CounterStrikeWeb.Services.Players;
+    using CounterStrikeWeb.Services.Players.Models;
     using CounterStrikeWeb.Services.Teams;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -42,7 +42,10 @@ namespace CounterStrikeWeb
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<CounterStrikeDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddControllersWithViews();
+
             services.AddTransient<IPlayerService, PlayerService>();
             services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<IMatchService, MatchService>();
@@ -73,10 +76,7 @@ namespace CounterStrikeWeb
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "Areas",
-                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
+                endpoints.MapDefaultAreaRoute();
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });
