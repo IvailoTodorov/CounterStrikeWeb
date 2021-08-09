@@ -11,7 +11,8 @@
         private readonly IPlayerService players;
         private readonly IMapper mapper;
 
-        public PlayersController(IPlayerService players,
+        public PlayersController(
+            IPlayerService players,
             IMapper mapper)
         {
             this.players = players;

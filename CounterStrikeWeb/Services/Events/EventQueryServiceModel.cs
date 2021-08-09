@@ -1,7 +1,7 @@
 ﻿namespace CounterStrikeWeb.Services.Events
 {
-    using CounterStrikeWeb.Services.Teams;
     using System.Collections.Generic;
+    using CounterStrikeWeb.Services.Teams;
 
     public class EventQueryServiceModel
     {

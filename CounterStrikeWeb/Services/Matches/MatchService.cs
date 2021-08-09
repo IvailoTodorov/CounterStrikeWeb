@@ -1,7 +1,13 @@
 ﻿namespace CounterStrikeWeb.Services.Matches
 {
-    using CounterStrikeWeb.Data;
+    using System;
     using System.Linq;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using CounterStrikeWeb.Data;
+    using CounterStrikeWeb.Data.Models;
+    using CounterStrikeWeb.Models.Match;
+    using CounterStrikeWeb.Models.Matches;
 
     public class MatchService : IMatchService
     {
@@ -9,6 +15,26 @@
 
         public MatchService(CounterStrikeDbContext data)
             => this.data = data;
+
+        public void Add(AddMatchFormModel match)
+        {
+            var firstTeam = this.data.Teams.FirstOrDefault(x => x.Name == match.FirstTeam);
+            var secondTeam = this.data.Teams.FirstOrDefault(x => x.Name == match.SecondTeam);
+
+            var matchData = new Match
+            {
+                FirstTeam = match.FirstTeam,
+                SecondTeam = match.SecondTeam,
+                StartTime = DateTime.ParseExact(match.StartTime, "MMMM dd yyyy", CultureInfo.InvariantCulture),
+            };
+
+            matchData.Teams.Add(firstTeam);
+            matchData.Teams.Add(secondTeam);
+
+            this.data.Matches.Add(matchData);
+
+            this.data.SaveChanges();
+        }
 
         public MatchQueryServiceModel All(string searchTerm)
         {
@@ -36,6 +62,25 @@
             {
                 Matches = matches
             };
+        }
+
+        public MatchDetailsViewModel Details(int Id, string firstTeam, string secondTeam, string startTime)
+        {
+            var teams = new List<Team>();
+            var firstTeamData = this.data.Teams.FirstOrDefault(m => m.Name == firstTeam);
+            var secondTeamData = this.data.Teams.FirstOrDefault(m => m.Name == secondTeam);
+
+            teams.Add(firstTeamData);
+            teams.Add(secondTeamData);
+
+            var matchData = new MatchDetailsViewModel
+            {
+                Id = Id,
+                StartTime = startTime,
+                Teams = teams,
+            };
+
+            return matchData;
         }
     }
 }

@@ -1,28 +1,21 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using System.Linq;
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using CounterStrikeWeb.Data;
-    using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
-    using CounterStrikeWeb.Services.Players.Models;
     using CounterStrikeWeb.Services.Teams;
     using Microsoft.AspNetCore.Mvc;
 
     public class TeamsController : Controller
     {
         private readonly ITeamService teams;
-        private readonly CounterStrikeDbContext data;
         private readonly IMapper mapper;
 
-        public TeamsController(ITeamService teams, 
-            CounterStrikeDbContext data,
+        public TeamsController(
+            ITeamService teams,
             IMapper mapper)
         {
             this.teams = teams;
-            this.data = data;
             this.mapper = mapper;
         }
 
@@ -36,22 +29,12 @@
                 return View(team);
             }
 
-            var teamData = new Team
-            {
-                Name = team.Name,
-                Logo = team.Logo,
-                CoachName = team.CoachName,
-                Country = team.Country,
-            };
-
-            this.data.Teams.Add(teamData);
-
-            this.data.SaveChanges();
+            this.teams.Add(team);
 
             return RedirectToAction(nameof(All));
         }
 
-        public IActionResult All([FromQuery]AllTeamsQueryModel query)
+        public IActionResult All([FromQuery] AllTeamsQueryModel query)
         {
             var queryResult = this.teams.All(
                 query.SearchTerm,
@@ -78,44 +61,20 @@
                 team.Rank = 0;
             }
 
-            var teamData = new TeamDetailsViewModel
-            {
-                Id = Id,
-                Name = team.Name,
-                Country = team.Country,
-                CoachName = team.CoachName,
-                Logo = team.Logo,
-                Rank = team.Rank,
-                Players = team.Players,
-                AveragePlayersAge = team.Players.Count(),
-            };
+            var teamData = this.mapper.Map<TeamDetailsViewModel>(team);
 
             return View(teamData);
         }
 
-        public IActionResult FindPlayerToAdd(int id, [FromQuery] AddPlayerToTeamViewModel query) 
+        public IActionResult FindPlayerToAdd(int id, [FromQuery] AddPlayerToTeamViewModel query)
         {
-            var playersQuery = this.data.Players.AsQueryable();
-            var totalPlayers = playersQuery.Count();
+            var queryResult = this.teams.FindPlayerToAdd(
+                query.SearchTerm,
+                query.CurrentPage,
+                AddPlayerToTeamViewModel.PlayersPerPage);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                playersQuery = playersQuery.Where(t =>
-                t.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                t.InGameName.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                t.Country.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            var players = playersQuery
-                .Where(p => p.Team == null)
-                .Skip((query.CurrentPage - 1) * AddPlayerToTeamViewModel.PlayersPerPage)
-                .Take(AddPlayerToTeamViewModel.PlayersPerPage)
-                .OrderByDescending(x => x.Id)
-                .ProjectTo<PlayerServiceModel>(this.mapper.ConfigurationProvider)
-                .ToList();
-
-            query.Players = players;
-            query.TotalPlayers = totalPlayers;
+            query.Players = queryResult.Players;
+            query.TotalPlayers = queryResult.TotalPlayers;
             query.TeamId = id;
 
             return View(query);
@@ -123,12 +82,7 @@
 
         public IActionResult AddPlayerToTeam(int playerId, int teamId)
         {
-            var player = this.data.Players.Find(playerId);
-            var team = this.data.Teams.Find(teamId);
-
-            player.Team = team;
-
-            this.data.SaveChanges();
+            this.teams.AddPlayerToTeam(playerId, teamId);
 
             return RedirectToAction(nameof(All));
         }

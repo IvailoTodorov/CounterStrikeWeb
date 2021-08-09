@@ -1,5 +1,6 @@
 ﻿namespace CounterStrikeWeb.Services.Players.Models
 {
+    using System.Collections.Generic;
     using System.Linq;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -113,6 +114,13 @@
             .Where(x => x.Id == id)
             .ProjectTo<PlayerDetailsServiceModel>(this.mapper.ConfigurationProvider)
             .FirstOrDefault();
-            
+
+        public IEnumerable<PlayerServiceModel> Latest()
+            => this.data
+              .Players
+              .OrderByDescending(x => x.Id)
+              .ProjectTo<PlayerServiceModel>(this.mapper.ConfigurationProvider)
+              .Take(5)
+              .ToList();
     }
 }

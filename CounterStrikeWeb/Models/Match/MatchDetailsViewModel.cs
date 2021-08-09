@@ -1,8 +1,8 @@
 ﻿namespace CounterStrikeWeb.Models.Match
 {
     using System.Collections.Generic;
-    using CounterStrikeWeb.Data.Models;
     using System.ComponentModel.DataAnnotations;
+    using CounterStrikeWeb.Data.Models;
 
     public class MatchDetailsViewModel
     {

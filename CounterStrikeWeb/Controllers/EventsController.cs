@@ -1,25 +1,22 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using CounterStrikeWeb.Data;
-    using CounterStrikeWeb.Data.Models;
+    using AutoMapper;
     using CounterStrikeWeb.Models.Events;
     using CounterStrikeWeb.Models.Teams;
     using CounterStrikeWeb.Services.Events;
-    using CounterStrikeWeb.Services.Teams;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Globalization;
-    using System.Linq;
 
     public class EventsController : Controller
     {
         private readonly IEventService events;
-        private readonly CounterStrikeDbContext data;
+        private readonly IMapper mapper;
 
-        public EventsController(IEventService events, CounterStrikeDbContext data)
+        public EventsController(
+            IEventService events,
+            IMapper mapper)
         {
             this.events = events;
-            this.data = data;
+            this.mapper = mapper;
         }
 
         public IActionResult Add() => View();
@@ -32,41 +29,14 @@
                 return View(@event);
             }
 
-            var startOn = DateTime.ParseExact(@event.StartOn, "MMMM dd yyyy", CultureInfo.InvariantCulture);
-
-            if (startOn < DateTime.UtcNow)
-            {
-                return BadRequest();
-            }
-
-            var eventData = new Event
-            {
-                Name = @event.Name,
-                StartOn = startOn,
-                Price = @event.Price,
-            };
-
-            this.data.Events.Add(eventData);
-
-            this.data.SaveChanges();
+            this.events.Add(@event);
 
             return RedirectToAction(nameof(All));
         }
 
         public IActionResult All()
         {
-            var events = this.data
-               .Events
-               .OrderByDescending(x => x.Id)
-               .Select(e => new EventListingViewModel
-               {
-                   Id = e.Id,
-                   Name = e.Name,
-                   StartOn = e.StartOn.ToString("MMMM dd yyyy"),
-                   Price = e.Price,
-                   ParticipantsCount = e.Teams.Count()
-               })
-               .ToList();
+            var events = this.events.All();
 
             return View(events);
         }
@@ -87,12 +57,7 @@
 
         public IActionResult AddTeamToEvent(int teamId, int eventId)
         {
-            var team = this.data.Teams.Find(teamId);
-            var @event = this.data.Events.Find(eventId);
-
-            team.Event = @event;
-
-            this.data.SaveChanges();
+            this.events.AddTeamToEvent(teamId, eventId);
 
             return RedirectToAction(nameof(All));
         }

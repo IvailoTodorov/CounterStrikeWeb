@@ -1,5 +1,7 @@
 ﻿namespace CounterStrikeWeb.Services.Players.Models
 {
+    using System.Collections.Generic;
+
     public interface IPlayerService
     {
         PlayerQueryServiceModel All(
@@ -26,6 +28,8 @@
                 string instagramUrl,
                 string twitterUrl);
         PlayerDetailsServiceModel Details(int id);
+
+        IEnumerable<PlayerServiceModel> Latest();
 
     }
 }
