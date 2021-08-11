@@ -9,10 +9,8 @@
     {
         private readonly IPlayerService players;
 
-        public HomeController(IPlayerService players)
-        {
-            this.players = players;
-        }
+        public HomeController(IPlayerService players) 
+            => this.players = players;
 
         public IActionResult Index() 
         {

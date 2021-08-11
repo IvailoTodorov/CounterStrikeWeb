@@ -122,5 +122,13 @@
               .ProjectTo<PlayerServiceModel>(this.mapper.ConfigurationProvider)
               .Take(5)
               .ToList();
+
+        public void Delete(int id)
+        {
+            var player = this.data.Players.Find(id);
+
+            this.data.Players.Remove(player);
+            this.data.SaveChanges();
+        }
     }
 }

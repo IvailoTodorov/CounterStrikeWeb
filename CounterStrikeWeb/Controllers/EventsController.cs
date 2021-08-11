@@ -1,6 +1,5 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using AutoMapper;
     using CounterStrikeWeb.Models.Events;
     using CounterStrikeWeb.Models.Teams;
     using CounterStrikeWeb.Services.Events;
@@ -9,15 +8,9 @@
     public class EventsController : Controller
     {
         private readonly IEventService events;
-        private readonly IMapper mapper;
 
-        public EventsController(
-            IEventService events,
-            IMapper mapper)
-        {
-            this.events = events;
-            this.mapper = mapper;
-        }
+        public EventsController(IEventService events) 
+            => this.events = events;
 
         public IActionResult Add() => View();
 

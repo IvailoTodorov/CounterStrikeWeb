@@ -1,13 +1,12 @@
 ﻿namespace CounterStrikeWeb.Services.Teams
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Data;
-    using System.Linq;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Teams;
-    using CounterStrikeWeb.Models.Players;
-    using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Services.Players.Models;
-    using AutoMapper;
+    using System.Linq;
 
     public class TeamService : ITeamService
     {

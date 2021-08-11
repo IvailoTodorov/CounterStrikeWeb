@@ -9,11 +9,8 @@
     {
         private readonly IMatchService matches;
 
-        public MatchController(
-            IMatchService matches)
-        {
-            this.matches = matches;
-        }
+        public MatchController(IMatchService matches) 
+            => this.matches = matches;
 
         public IActionResult Add() => View();
 

@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using CounterStrikeWeb.Data.Models;
+    using CounterStrikeWeb.Models.Events;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
     using CounterStrikeWeb.Services.Players.Models;

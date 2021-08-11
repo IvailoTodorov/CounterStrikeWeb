@@ -100,5 +100,17 @@
 
             return RedirectToAction(nameof(All));
         }
+
+        public IActionResult Delete(int id)
+        {
+            if (!User.IsAdmin())
+            {
+                return BadRequest();
+            }
+
+            this.players.Delete(id);
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

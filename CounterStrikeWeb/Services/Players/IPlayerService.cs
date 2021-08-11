@@ -29,6 +29,8 @@
                 string twitterUrl);
         PlayerDetailsServiceModel Details(int id);
 
+        void Delete(int id);
+
         IEnumerable<PlayerServiceModel> Latest();
 
     }

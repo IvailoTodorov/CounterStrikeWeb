@@ -1,5 +1,6 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using System.Linq;
     using AutoMapper;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
@@ -59,6 +60,11 @@
             if (team.Rank == null)
             {
                 team.Rank = 0;
+            }
+
+            if (team.AveragePlayersAge == 0)
+            {
+                team.AveragePlayersAge = team.Players.Average(x => x.Age);
             }
 
             var teamData = this.mapper.Map<TeamDetailsViewModel>(team);
