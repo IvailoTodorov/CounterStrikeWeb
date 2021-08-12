@@ -13,9 +13,22 @@
 
         Team Find(int Id);
 
-        void Add(AddTeamFormModel team);
+        void Add(TeamFormModel team);
 
-        void AddPlayerToTeam(int playerId, int teamId);
+        TeamDetailsViewModel Details(int id);
+
+        bool Edit(
+            int id,
+            string name,
+            string logo,
+            string coachName,
+            string country);
+
+        void Delete(int id);
+
+        void AddPlayerToTeam(
+            int playerId,
+            int teamId);
 
         PlayerQueryServiceModel FindPlayerToAdd(
             string searchTerm,

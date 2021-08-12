@@ -16,7 +16,7 @@ namespace CounterStrikeWeb.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
+                .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CounterStrikeWeb.Data.Models.Event", b =>
@@ -88,6 +88,7 @@ namespace CounterStrikeWeb.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InGameName")
@@ -104,6 +105,7 @@ namespace CounterStrikeWeb.Data.Migrations
                         .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Picture")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TeamId")
@@ -126,13 +128,12 @@ namespace CounterStrikeWeb.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("AveragePlayersAge")
-                        .HasColumnType("float");
-
                     b.Property<string>("CoachName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("EventId")
@@ -145,9 +146,6 @@ namespace CounterStrikeWeb.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Rank")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

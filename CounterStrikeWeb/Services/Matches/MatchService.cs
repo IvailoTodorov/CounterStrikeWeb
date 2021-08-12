@@ -16,7 +16,7 @@
         public MatchService(CounterStrikeDbContext data)
             => this.data = data;
 
-        public void Add(AddMatchFormModel match)
+        public void Add(MatchFormModel match)
         {
             var firstTeam = this.data.Teams.FirstOrDefault(x => x.Name == match.FirstTeam);
             var secondTeam = this.data.Teams.FirstOrDefault(x => x.Name == match.SecondTeam);
@@ -64,7 +64,8 @@
             };
         }
 
-        public MatchDetailsViewModel Details(int Id, string firstTeam, string secondTeam, string startTime)
+
+        public MatchDetailsViewModel Details(int id, string firstTeam, string secondTeam, string startTime)
         {
             var teams = new List<Team>();
             var firstTeamData = this.data.Teams.FirstOrDefault(m => m.Name == firstTeam);
@@ -75,12 +76,42 @@
 
             var matchData = new MatchDetailsViewModel
             {
-                Id = Id,
+                Id = id,
                 StartTime = startTime,
                 Teams = teams,
             };
 
             return matchData;
+        }
+
+        public bool Edit(
+            int id,
+            string firstTeam,
+            string secondTeam,
+            string startTime)
+        {
+            var match = this.data.Matches.Find(id);
+
+            if (match == null)
+            {
+                return false;
+            }
+
+            match.FirstTeam = firstTeam;
+            match.SecondTeam = secondTeam;
+            match.StartTime = DateTime.ParseExact(startTime, "MMMM dd yyyy", CultureInfo.InvariantCulture);
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+        public void Delete(int id)
+        {
+            var match = this.data.Matches.Find(id);
+
+            this.data.Matches.Remove(match);
+            this.data.SaveChanges();
         }
     }
 }

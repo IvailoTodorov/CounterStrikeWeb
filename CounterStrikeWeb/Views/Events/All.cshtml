@@ -17,6 +17,11 @@
             <p class="card-text">Price: @ev.Price</p>
             <p class="card-text">@ev.ParticipantsCount Teams</p>
             <a asp-controller="Events" asp-action="FindTeamToAdd" asp-route-id="@ev.Id" class="btn btn-primary">Add Team</a>
+            @if (User.IsAdmin())
+            {
+                <a asp-controller="Events" asp-action="Edit" asp-route-id="@ev.Id" class="btn btn-warning">Edit</a>
+                <a asp-controller="Events" asp-action="Delete" asp-route-id="@ev.Id" class="btn btn-danger">Delete</a>
+            }
         </div>
     </div>
 }

@@ -21,13 +21,11 @@
         [Required]
         public string Logo { get; set; }
 
-        public int? Rank { get; set; }
-
+        [Required]
         public string CoachName { get; set; }
 
+        [Required]
         public string Country { get; set; }
-
-        public double AveragePlayersAge { get; set; }
 
         public int? EventId { get; set; }
 

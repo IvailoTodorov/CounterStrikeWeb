@@ -20,7 +20,7 @@
             this.mapper = mapper;
         }
 
-        public void Add(AddTeamFormModel team)
+        public void Add(TeamFormModel team)
         {
             var teamData = new Team
             {
@@ -118,5 +118,44 @@
             => this.data
                 .Teams
                 .Find(Id);
+
+        public bool Edit(
+            int id,
+            string name,
+            string logo,
+            string coachName,
+            string country)
+        {
+            var team = this.data.Teams.Find(id);
+
+            if (team == null)
+            {
+                return false;
+            }
+
+            team.Name = name;
+            team.Logo = logo;
+            team.CoachName = coachName;
+            team.Country = country;
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
+        public void Delete(int id)
+        {
+            var team = this.data.Teams.Find(id);
+
+            this.data.Teams.Remove(team);
+            this.data.SaveChanges();
+        }
+
+        public TeamDetailsViewModel Details(int id)
+            => this.data
+            .Teams
+            .Where(x => x.Id == id)
+            .ProjectTo<TeamDetailsViewModel>(this.mapper.ConfigurationProvider)
+            .FirstOrDefault();
     }
 }

@@ -7,8 +7,20 @@
     {
         MatchQueryServiceModel All(string searchTerm);
 
-        void Add(AddMatchFormModel match);
+        void Add(MatchFormModel match);
 
-        MatchDetailsViewModel Details(int Id, string firstTeam, string secondTeam, string startTime); 
+        MatchDetailsViewModel Details(
+            int id,
+            string firstTeam,
+            string secondTeam,
+            string startTime);
+
+        bool Edit(
+            int id, 
+            string firstTeam,
+            string secondTeam,
+            string startTime);
+
+        void Delete(int id);
     }
 }

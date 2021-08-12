@@ -11,13 +11,9 @@
 
         public string Logo { get; init; }
 
-        public int? Rank { get; init; }
-
         public string CoachName { get; init; }
 
         public string Country { get; init; }
-
-        public double AveragePlayersAge { get; init; }
 
         public IEnumerable<Player> Players { get; init; }
     }

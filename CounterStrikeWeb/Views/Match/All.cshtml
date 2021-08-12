@@ -35,6 +35,18 @@
                asp-route-secondTeam="@match.SecondTeam"
                asp-route-startTime="@match.StartTime"
                class="btn btn-primary">Details</a>
+            @if (User.IsAdmin())
+            {
+                <a asp-controller="Match" asp-action="Edit"
+                   asp-route-id="@match.Id"
+                   asp-route-firstTeam="@match.FirstTeam"
+                   asp-route-secondTeam="@match.SecondTeam"
+                   asp-route-startTime="@match.StartTime"
+                   class="btn btn-warning">Edit</a>
+                <a asp-controller="Match" asp-action="Delete"
+                   asp-route-id="@match.Id"
+                   class="btn btn-danger">Delete</a>
+            }
         </div>
     </div>
 }

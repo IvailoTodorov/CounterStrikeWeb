@@ -21,16 +21,8 @@
                 <input asp-for="CoachName" readonly class="form-control" value="@Model.CoachName">
             </div>
             <div class="form-group">
-                <label asp-for="Rank">Rank</label>
-                <input asp-for="Rank" readonly class="form-control" value="@Model.Rank">
-            </div>
-            <div class="form-group">
                 <label asp-for="Country">Country</label>
                 <input asp-for="Country" readonly class="form-control" value="@Model.Country">
-            </div>
-            <div class="form-group">
-                <label asp-for="AveragePlayersAge">Average Players Age</label>
-                <input asp-for="AveragePlayersAge" readonly class="form-control" value="@Model.AveragePlayersAge">
             </div>
             @foreach (var player in Model.Players)
             {

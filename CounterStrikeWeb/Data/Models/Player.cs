@@ -16,23 +16,18 @@
         [MaxLength(PlayerNameMaxLength)]
         public string InGameName { get; set; }
 
+        [Required]
         public int Age { get; set; }
 
+        [Required]
         public string Picture { get; set; }
 
+        [Required]
         public string Country { get; set; }
 
         public string InstagramUrl { get; set; }
 
         public string TwitterUrl { get; set; }
-
-        //public string Crosshair { get; set; }
-
-        //public string ViewModel { get; set; }
-
-        //public string CL_BOB { get; set; }
-
-        //public string LaunchOptions { get; set; }
 
         public int? TeamId { get; set; }
 

@@ -13,10 +13,18 @@
 
         IEnumerable<EventListingViewModel> All();
 
-        void Add(AddEventFormModel @event);
+        void Add(EventFormModel @event);
 
         void AddTeamToEvent(int teamId, int eventId);
 
         Event Find(int id);
+
+        bool Edit(
+            int id,
+            string name,
+            string startOn,
+            string price);
+
+        void Delete(int id);
     }
 }

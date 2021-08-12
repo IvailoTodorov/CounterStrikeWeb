@@ -4,6 +4,7 @@
     using CounterStrikeWeb.Infrastrucure;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Services.Players.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class PlayersController : Controller
@@ -19,8 +20,10 @@
             this.mapper = mapper;
         }
 
+        [Authorize]
         public IActionResult Add() => View();
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(PlayerFormModel player)
         {
@@ -66,15 +69,23 @@
             return View(playerData);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            if (!User.IsAdmin())
+            {
+                return BadRequest();
+            }
+
             var player = this.players.Details(id);
 
             var playerForm = this.mapper.Map<PlayerFormModel>(player);
 
             return View(playerForm);
         }
+
+        [Authorize]
         [HttpPost]
         public IActionResult Edit(int id, PlayerFormModel playerData)
         {
@@ -101,6 +112,7 @@
             return RedirectToAction(nameof(All));
         }
 
+        [Authorize]
         public IActionResult Delete(int id)
         {
             if (!User.IsAdmin())

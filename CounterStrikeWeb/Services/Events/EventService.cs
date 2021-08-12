@@ -23,7 +23,7 @@
             this.mapper = mapper;
         }
 
-        public void Add(AddEventFormModel @event)
+        public void Add(EventFormModel @event)
         {
             var startOn = DateTime.ParseExact(@event.StartOn, "MMMM dd yyyy", CultureInfo.InvariantCulture);
 
@@ -72,6 +72,30 @@
             return events;
         }
 
+
+        public bool Edit(
+            int id,
+            string name,
+            string startOn,
+            string price)
+        {
+            var @event = this.data.Events.Find(id);
+
+            if (@event == null)
+            {
+                return false;
+            }
+
+            @event.Name = name;
+            @event.StartOn = DateTime.ParseExact(startOn, "MMMM dd yyyy", CultureInfo.InvariantCulture);
+            @event.Price = price;
+            
+
+            this.data.SaveChanges();
+
+            return true;
+        }
+
         public Event Find(int id) 
             => this.data
             .Events
@@ -106,6 +130,23 @@
                 TotalTeams = totalTeams,
                 Teams = teams,
             };
+        }
+
+        public void Delete(int id)
+        {
+            var @event = this.data.Events.Find(id);
+
+            var teams = this.data.Teams
+                 .Where(x => x.EventId == @event.Id)
+                 .ToList();
+
+            foreach (var team in teams)
+            {
+                team.EventId = null;
+            }
+
+            this.data.Events.Remove(@event);
+            this.data.SaveChanges();
         }
     }
 }

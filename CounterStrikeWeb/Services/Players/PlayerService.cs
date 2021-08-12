@@ -57,7 +57,7 @@
         {
             var player = this.data.Players.Find(id);
 
-            if (player == null) // fix with administrator
+            if (player == null) 
             {
                 return false;
             }
@@ -70,7 +70,6 @@
             player.InstagramUrl = instagramUrl;
             player.TwitterUrl = twitterUrl;
             
-
             this.data.SaveChanges();
 
             return true;
