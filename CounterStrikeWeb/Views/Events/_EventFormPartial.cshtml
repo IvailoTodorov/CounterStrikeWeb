@@ -1,0 +1,30 @@
+﻿@model EventFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2>@ViewBag.Title</h2>
+
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" placeholder="Event Name">
+                    <span asp-validation-for="Name" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartOn"></label>
+                    <input asp-for="StartOn" class="form-control" placeholder="MMMM dd yyyy">
+                    <span asp-validation-for="StartOn" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" placeholder="10,000$, 20,000$, etc...">
+                    <span asp-validation-for="Price" class="small text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>

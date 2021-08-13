@@ -1,7 +1,5 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using System.Diagnostics;
-    using CounterStrikeWeb.Models;
     using CounterStrikeWeb.Services.Players.Models;
     using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +17,6 @@
             return View(players);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Error() => View();
     }
 }

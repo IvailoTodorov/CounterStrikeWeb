@@ -1,0 +1,30 @@
+﻿@model MatchFormModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2>@ViewBag.Title</h2>
+
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="FirstTeam"></label>
+                    <input asp-for="FirstTeam" class="form-control" placeholder="Na'Vi, G2, etc...">
+                    <span asp-validation-for="FirstTeam" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SecondTeam"></label>
+                    <input asp-for="SecondTeam" class="form-control" placeholder="SKADE, Gambit, etc...">
+                    <span asp-validation-for="SecondTeam" class="small text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartTime"></label>
+                    <input asp-for="StartTime" class="form-control" placeholder="MMMM dd yyyy">
+                    <span asp-validation-for="StartTime" class="small text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
