@@ -11,5 +11,7 @@
         public int Age { get; init; }
 
         public string Picture { get; init; }
+
+        public bool IsPublic { get; init; }
     }
 }

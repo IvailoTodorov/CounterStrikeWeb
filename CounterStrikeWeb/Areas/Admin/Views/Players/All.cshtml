@@ -1,0 +1,40 @@
+﻿@model IEnumerable<PlayerServiceModel>
+
+    @{
+    ViewBag.Title = "Players Administration";
+    }
+
+    <h1>All Players</h1>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">InGameName</th>
+                <th scope="col">Age</th>
+                @*<th scope="col">Picture</th>*@
+                <th scope="col">Approved</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var player in Model)
+            {
+            <tr>
+                <td scope="col">@player.Id</td>
+                <td scope="col">@player.Name</td>
+                <td scope="col">@player.InGameName</td>
+                <td scope="col">@player.Age</td>
+                @*<td scope="col">@player.Picture</td>*@
+                <td scope="col">@(player.IsPublic ? "Yes" : "No")</td>
+                <td scope="col">
+                    <a asp-area="" asp-controller="Players" asp-action="Delete" asp-route-id="@player.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                    <a asp-area="" asp-controller="Players" asp-action="Edit" asp-route-id="@player.Id" class="btn btn-warning float-right ml-3">Edit</a>
+                    <a asp-area="Admin" asp-controller="Players" asp-action="ChangeVisibility" asp-route-id="@player.Id" class="btn btn-info float-right ml-3">@(player.IsPublic ? "Hide" : "Show")</a>
+                    <a asp-area="" asp-controller="Players" asp-action="Details" asp-route-id="@player.Id" asp-route-information="@player.InGameName" class="btn btn-primary float-right ml-3">View</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>

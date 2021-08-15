@@ -83,6 +83,12 @@ namespace CounterStrikeWeb
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultAreaRoute();
+
+                endpoints.MapControllerRoute(
+                    name: "Player Details",
+                    pattern: "/Players/Details/{id}/{information}",
+                    defaults: new { controller = "Players", action = "Details"});
+
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });

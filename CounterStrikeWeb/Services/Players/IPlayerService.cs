@@ -5,9 +5,10 @@
     public interface IPlayerService
     {
         PlayerQueryServiceModel All(
-            string searchTerm,
-            int currentPage,
-            int playersPerPage);
+            string searchTerm = null,
+            int currentPage = 1,
+            int playersPerPage = int.MaxValue,
+            bool publicOnly = true);
 
         int Create(
                 string name,
@@ -26,7 +27,11 @@
                 string country,
                 string picture,
                 string instagramUrl,
-                string twitterUrl);
+                string twitterUrl,
+                bool isPublic);
+
+        void ChangeVisibility(int id);
+
         PlayerDetailsServiceModel Details(int id);
 
         void Delete(int id);

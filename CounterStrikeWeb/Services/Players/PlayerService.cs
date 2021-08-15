@@ -37,6 +37,7 @@
                 Picture = picture,
                 InstagramUrl = instagramUrl,
                 TwitterUrl = twitterUrl,
+                IsPublic = false    
             };
 
             this.data.Players.Add(playerData);
@@ -53,7 +54,9 @@
             string country,
             string picture,
             string instagramUrl,
-            string twitterUrl)
+            string twitterUrl,
+            bool isPublic)
+    
         {
             var player = this.data.Players.Find(id);
 
@@ -69,6 +72,7 @@
             player.Picture = picture;
             player.InstagramUrl = instagramUrl;
             player.TwitterUrl = twitterUrl;
+            player.IsPublic = isPublic;
             
             this.data.SaveChanges();
 
@@ -76,11 +80,13 @@
         }
 
         public PlayerQueryServiceModel All(
-            string searchTerm,
-            int currentPage,
-            int playersPerPage)
+            string searchTerm = null,
+            int currentPage = 1,
+            int playersPerPage = int.MaxValue,
+            bool publicOnly = true)
         {
-            var playersQuery = this.data.Players.AsQueryable();
+            var playersQuery = this.data.Players.
+                Where(p => !publicOnly || p.IsPublic);
             var totalPlayers = playersQuery.Count();
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -117,6 +123,7 @@
         public IEnumerable<PlayerServiceModel> Latest()
             => this.data
               .Players
+              .Where(p => p.IsPublic)
               .OrderByDescending(x => x.Id)
               .ProjectTo<PlayerServiceModel>(this.mapper.ConfigurationProvider)
               .Take(5)
@@ -127,6 +134,15 @@
             var player = this.data.Players.Find(id);
 
             this.data.Players.Remove(player);
+            this.data.SaveChanges();
+        }
+
+        public void ChangeVisibility(int id)
+        {
+            var player = this.data.Players.Find(id);
+
+            player.IsPublic = !player.IsPublic;
+
             this.data.SaveChanges();
         }
     }

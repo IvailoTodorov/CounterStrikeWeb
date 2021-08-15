@@ -36,7 +36,7 @@
             }
 
 
-            return View(players);
+            return View(latestPlayers);
         }
 
         public IActionResult Error() => View();

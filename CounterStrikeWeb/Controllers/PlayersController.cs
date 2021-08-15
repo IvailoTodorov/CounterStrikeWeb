@@ -32,7 +32,7 @@
                 return View(player);
             }
 
-            this.players.Create(
+            var playerId = this.players.Create(
                 player.Name,
                 player.InGameName,
                 player.Age,
@@ -41,7 +41,7 @@
                 player.InstagramUrl,
                 player.TwitterUrl);
 
-            return RedirectToAction(nameof(All));
+            return RedirectToAction(nameof(Details), new { id = playerId, information = player.InGameName });
         }
 
         public IActionResult All([FromQuery] AllPlayersQueryModel query)
@@ -57,11 +57,16 @@
             return View(query);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string information)
         {
             var playerData = this.players.Details(id);
 
             if (playerData == null)
+            {
+                return BadRequest();
+            }
+
+            if (!information.Contains(playerData.InGameName))
             {
                 return BadRequest();
             }
@@ -102,7 +107,8 @@
             playerData.Country,
             playerData.Picture,
             playerData.InstagramUrl,
-            playerData.TwitterUrl);
+            playerData.TwitterUrl,
+            this.User.IsAdmin());
 
             if (!playerIsEdited)
             {
