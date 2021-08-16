@@ -89,6 +89,11 @@ namespace CounterStrikeWeb
                     pattern: "/Players/Details/{id}/{information}",
                     defaults: new { controller = "Players", action = "Details"});
 
+                endpoints.MapControllerRoute(
+                    name: "Team Details",
+                    pattern: "/Teams/Details/{id}/{information}",
+                    defaults: new { controller = "Teams", action = "Details" });
+
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });

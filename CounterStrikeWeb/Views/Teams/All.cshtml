@@ -28,7 +28,7 @@
                 <img class="card-img-top" src="@team.Logo" alt="@team.Name">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center">@team.Name</h5>
-                    <a asp-controller="Teams" asp-action="Details" asp-route-id="@team.Id" class="btn btn-primary">View More</a>
+                    <a asp-controller="Teams" asp-action="Details" asp-route-id="@team.Id" asp-route-information="@team.Name" class="btn btn-primary">View More</a>
                     @if (User.IsAdmin())
                     {
                         <a asp-controller="Teams" asp-action="Edit" asp-route-id="@team.Id" class="btn btn-warning">Edit</a>

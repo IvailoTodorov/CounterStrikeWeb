@@ -14,7 +14,5 @@
         public string CoachName { get; init; }
 
         public string Country { get; init; }
-
-        public IEnumerable<Player> Players { get; init; }
     }
 }

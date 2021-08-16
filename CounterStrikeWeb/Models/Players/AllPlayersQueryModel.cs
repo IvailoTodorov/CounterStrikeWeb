@@ -1,8 +1,8 @@
 ﻿namespace CounterStrikeWeb.Models.Players
 {
-    using CounterStrikeWeb.Services.Players.Models;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using CounterStrikeWeb.Services.Players.Models;
 
     public class AllPlayersQueryModel
     {

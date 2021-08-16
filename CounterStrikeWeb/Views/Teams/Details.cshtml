@@ -24,13 +24,6 @@
                 <label asp-for="Country">Country</label>
                 <input asp-for="Country" readonly class="form-control" value="@Model.Country">
             </div>
-            @foreach (var player in Model.Players)
-            {
-                <div class="form-group">
-                    <label asp-for="@player.InGameName">Player</label>
-                    <input asp-for="@player.InGameName" readonly class="form-control" value="@player.InGameName">
-                </div>
-            }
             <div class="form-group text-center">
                 <div class="button-holder">
                     <a asp-controller="Teams" asp-action="FindPlayerToAdd" asp-route-id="@Model.Id" class="btn btn-primary btn-block text-uppercase">Add Player</a>

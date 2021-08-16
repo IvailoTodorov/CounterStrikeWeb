@@ -7,8 +7,8 @@
     using CounterStrikeWeb.Models.Matches;
     using CounterStrikeWeb.Models.Players;
     using CounterStrikeWeb.Models.Teams;
-    using CounterStrikeWeb.Services.Players.Models;
     using CounterStrikeWeb.Services.Teams;
+    using CounterStrikeWeb.Services.Players.Models;
 
     public class MappingProfile : Profile
     {

@@ -1,10 +1,10 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using CounterStrikeWeb.Services.Players.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
-    using System;
-    using System.Collections.Generic;
 
     public class HomeController : Controller
     {

@@ -1,8 +1,8 @@
 ﻿namespace CounterStrikeWeb.Models.Teams
 {
-    using CounterStrikeWeb.Services.Teams;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using CounterStrikeWeb.Services.Teams;
 
     public class AllTeamsQueryModel
     {

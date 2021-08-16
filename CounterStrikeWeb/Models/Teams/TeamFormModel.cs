@@ -20,5 +20,6 @@
 
         [Required]
         public string Country { get; init; }
+
     }
 }

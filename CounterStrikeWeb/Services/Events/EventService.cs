@@ -1,9 +1,9 @@
 ﻿namespace CounterStrikeWeb.Services.Events
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Data;

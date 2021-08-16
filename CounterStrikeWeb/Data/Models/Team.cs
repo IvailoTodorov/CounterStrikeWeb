@@ -27,6 +27,8 @@
         [Required]
         public string Country { get; set; }
 
+        public bool IsPublic { get; set; }
+
         public int? EventId { get; set; }
 
         public Event Event { get; set; }

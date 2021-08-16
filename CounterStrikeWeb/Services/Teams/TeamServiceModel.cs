@@ -7,5 +7,7 @@
         public string Name { get; init; }
 
         public string Logo { get; init; }
+
+        public bool IsPublic { get; init; }
     }
 }

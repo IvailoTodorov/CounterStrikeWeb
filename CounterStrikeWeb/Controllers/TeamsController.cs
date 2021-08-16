@@ -1,6 +1,5 @@
 ﻿namespace CounterStrikeWeb.Controllers
 {
-    using System.Linq;
     using AutoMapper;
     using CounterStrikeWeb.Infrastrucure;
     using CounterStrikeWeb.Models.Players;
@@ -36,7 +35,9 @@
 
             this.teams.Add(team);
 
-            return RedirectToAction(nameof(All));
+            var teamId = this.teams.FindId(team.Name);
+
+            return RedirectToAction(nameof(Details), new { id = teamId, information = team.Name });
         }
 
         public IActionResult All([FromQuery] AllTeamsQueryModel query)
@@ -52,13 +53,18 @@
             return View(query);
         }
 
-        public IActionResult Details(int Id)
+        public IActionResult Details(int Id, string information)
         {
             var team = this.teams.Find(Id);
 
             if (team == null)
             {
                 return NotFound();
+            }
+
+            if (!information.Contains(team.Name))
+            {
+                return BadRequest();
             }
 
             var teamData = this.mapper.Map<TeamDetailsViewModel>(team);
@@ -124,7 +130,8 @@
             teamData.Name,
             teamData.Logo,
             teamData.CoachName,
-            teamData.Country);
+            teamData.Country,
+            this.User.IsAdmin());
 
             if (!teamIsEdited)
             {

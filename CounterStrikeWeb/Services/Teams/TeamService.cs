@@ -1,12 +1,12 @@
 ﻿namespace CounterStrikeWeb.Services.Teams
 {
+    using System.Linq;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using CounterStrikeWeb.Models.Teams;
     using CounterStrikeWeb.Services.Players.Models;
-    using System.Linq;
 
     public class TeamService : ITeamService
     {
@@ -28,6 +28,7 @@
                 Logo = team.Logo,
                 CoachName = team.CoachName,
                 Country = team.Country,
+                IsPublic = false
             };
 
             this.data.Teams.Add(teamData);
@@ -46,11 +47,13 @@
         }
 
         public TeamQueryServiceModel All(
-            string searchTerm,
-            int currentPage,
-            int teamsPerPage)
+            string searchTerm = null,
+            int currentPage = 1,
+            int teamsPerPage = int.MaxValue,
+             bool publicOnly = true)
         {
-            var teamsQuery = this.data.Teams.AsQueryable();
+            var teamsQuery = this.data.Teams.
+                Where(t => !publicOnly || t.IsPublic);
             var totalTeams = teamsQuery.Count();
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -65,12 +68,7 @@
                 .Skip((currentPage - 1) * teamsPerPage)
                 .Take(teamsPerPage)
                 .OrderByDescending(x => x.Id)
-               .Select(t => new TeamServiceModel
-               {
-                   Id = t.Id,
-                   Name = t.Name,
-                   Logo = t.Logo,
-               })
+                .ProjectTo<TeamServiceModel>(this.mapper.ConfigurationProvider)
                .ToList();
 
             return new TeamQueryServiceModel
@@ -124,7 +122,8 @@
             string name,
             string logo,
             string coachName,
-            string country)
+            string country,
+            bool isPublic)
         {
             var team = this.data.Teams.Find(id);
 
@@ -137,6 +136,7 @@
             team.Logo = logo;
             team.CoachName = coachName;
             team.Country = country;
+            team.IsPublic = isPublic;
 
             this.data.SaveChanges();
 
@@ -157,5 +157,21 @@
             .Where(x => x.Id == id)
             .ProjectTo<TeamDetailsViewModel>(this.mapper.ConfigurationProvider)
             .FirstOrDefault();
+
+        public int FindId(string teamName)
+        {
+            var team = this.data.Teams.Where(t => t.Name == teamName).First();
+
+            return team.Id;
+        }
+
+        public void ChangeVisibility(int id)
+        {
+            var team = this.data.Teams.Find(id);
+
+            team.IsPublic = !team.IsPublic;
+
+            this.data.SaveChanges();
+        }
     }
 }

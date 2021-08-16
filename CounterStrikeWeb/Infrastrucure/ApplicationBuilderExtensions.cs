@@ -1,13 +1,13 @@
 ﻿namespace CounterStrikeWeb.Infrastrucure
 {
+    using System;
+    using System.Threading.Tasks;
     using CounterStrikeWeb.Data;
     using CounterStrikeWeb.Data.Models;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Threading.Tasks;
 
     using static Areas.Admin.AdminConstrants;
 

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CounterStrikeWeb.Data.Migrations
+﻿namespace CounterStrikeWeb.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class UserFullNameColumn : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,8 +1,8 @@
 ﻿namespace CounterStrikeWeb.Data
 {
+    using CounterStrikeWeb.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-    using CounterStrikeWeb.Data.Models;
 
     public class CounterStrikeDbContext : IdentityDbContext<User>
     {

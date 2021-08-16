@@ -7,11 +7,14 @@
     public interface ITeamService
     {
         TeamQueryServiceModel All(
-            string searchTerm,
-            int currentPage,
-            int teamsPerPage);
+            string searchTerm = null,
+            int currentPage = 1,
+            int teamsPerPage = int.MaxValue,
+             bool publicOnly = true);
 
         Team Find(int Id);
+
+        int FindId(string teamName);
 
         void Add(TeamFormModel team);
 
@@ -22,7 +25,8 @@
             string name,
             string logo,
             string coachName,
-            string country);
+            string country,
+            bool isPublic);
 
         void Delete(int id);
 
@@ -34,5 +38,7 @@
             string searchTerm,
             int currentPage,
             int playersPerPage);
+
+        void ChangeVisibility(int id);
     }
 }

@@ -13,7 +13,6 @@
                 <th scope="col">Name</th>
                 <th scope="col">InGameName</th>
                 <th scope="col">Age</th>
-                @*<th scope="col">Picture</th>*@
                 <th scope="col">Approved</th>
                 <th scope="col"></th>
             </tr>
@@ -26,7 +25,6 @@
                 <td scope="col">@player.Name</td>
                 <td scope="col">@player.InGameName</td>
                 <td scope="col">@player.Age</td>
-                @*<td scope="col">@player.Picture</td>*@
                 <td scope="col">@(player.IsPublic ? "Yes" : "No")</td>
                 <td scope="col">
                     <a asp-area="" asp-controller="Players" asp-action="Delete" asp-route-id="@player.Id" class="btn btn-danger float-right ml-3">Delete</a>
