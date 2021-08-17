@@ -6,6 +6,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
 
+    using static WebConstants.Cache;
+
     public class HomeController : Controller
     {
         private readonly IPlayerService players;
@@ -21,9 +23,7 @@
 
         public IActionResult Index()
         {
-            const string latestPlayersCacheKey = "LatestPlayersCacheKey";
-
-            var latestPlayers = this.cache.Get<IEnumerable<PlayerServiceModel>>(latestPlayersCacheKey);
+            var latestPlayers = this.cache.Get<IEnumerable<PlayerServiceModel>>(LatestPlayersCacheKey);
 
             if (latestPlayers == null)
             {
@@ -32,7 +32,7 @@
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
 
-                this.cache.Set(latestPlayersCacheKey, latestPlayers, cacheOptions);
+                this.cache.Set(LatestPlayersCacheKey, latestPlayers, cacheOptions);
             }
 
 

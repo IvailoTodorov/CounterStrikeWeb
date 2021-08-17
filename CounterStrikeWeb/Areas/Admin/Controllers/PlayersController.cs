@@ -1,8 +1,13 @@
 ﻿namespace CounterStrikeWeb.Areas.Admin.Controllers
 {
     using CounterStrikeWeb.Services.Players.Models;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using static AdminConstrants;
+
+    [Area(AreaName)]
+    [Authorize(Roles = AdministratorRoleName)]
     public class PlayersController : AdminController
     {
         private readonly IPlayerService players;

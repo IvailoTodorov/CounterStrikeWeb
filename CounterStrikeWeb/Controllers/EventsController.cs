@@ -83,6 +83,7 @@
 
             return View(eventForm);
         }
+
         [HttpPost]
         [Authorize]
         public IActionResult Edit(int id, EventFormModel eventData)

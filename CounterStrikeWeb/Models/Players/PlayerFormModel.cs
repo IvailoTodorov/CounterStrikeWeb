@@ -29,15 +29,5 @@
         [Display(Name = "Twitter URL")]
         [Url]
         public string TwitterUrl { get; init; }
-
-        //public string Crosshair { get; set; }
-
-        //public string ViewModel { get; set; }
-
-        //public string CL_BOB { get; set; }
-
-        //public string LaunchOptions { get; set; }
-
-        //public int TeamId { get; set; }
     }
 }

@@ -27,10 +27,10 @@
         {
             var startOn = DateTime.ParseExact(@event.StartOn, "MMMM dd yyyy", CultureInfo.InvariantCulture);
 
-            if (startOn < DateTime.UtcNow)
-            {
-                throw new ArgumentException();
-            }
+            //if (startOn < DateTime.UtcNow)
+            //{
+            //    throw new ArgumentException();
+            //}
 
             var eventData = new Event
             {

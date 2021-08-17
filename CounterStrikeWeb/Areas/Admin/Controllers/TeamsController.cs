@@ -1,8 +1,13 @@
 ﻿namespace CounterStrikeWeb.Areas.Admin.Controllers
 {
     using CounterStrikeWeb.Services.Teams;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using static AdminConstrants;
+
+    [Area(AreaName)]
+    [Authorize(Roles = AdministratorRoleName)]
     public class TeamsController : AdminController
     {
         private readonly ITeamService teams;
