@@ -85,6 +85,11 @@
 
             var player = this.players.Details(id);
 
+            if (player == null)
+            {
+                return BadRequest();
+            }
+
             var playerForm = this.mapper.Map<PlayerFormModel>(player);
 
             return View(playerForm);

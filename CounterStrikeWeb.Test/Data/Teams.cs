@@ -18,5 +18,18 @@
             => Enumerable.Range(0, 10).Select(i => new Team
             {
             });
+
+        public static IEnumerable<Team> TwoTeams()
+        {
+            var teams = new List<Team>();
+
+            var first = new Team { Name = "TestFirst" };
+            var second = new Team { Name = "TestSecond" };
+
+            teams.Add(first);
+            teams.Add(second);
+
+            return teams;
+        }
     }
 }

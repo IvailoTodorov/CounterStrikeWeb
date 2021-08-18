@@ -79,6 +79,11 @@
 
             var @event = this.events.Find(id);
 
+            if (@event == null)
+            {
+                return BadRequest();
+            }
+
             var eventForm = this.mapper.Map<EventFormModel>(@event);
 
             return View(eventForm);

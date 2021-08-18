@@ -105,6 +105,18 @@
 
         [Theory]
         [InlineData(1, "Admin", "Administrator")]
+        public void GetEditShouldBeForAdminAndReturnViewWithCorrectModel(int id, string username, string role)
+           => MyController<EventsController>
+               .Instance(controller => controller
+                   .WithUser(username, new[] { role })
+                   .WithData(TenEvents))
+               .Calling(x => x.Edit(id))
+           .ShouldReturn()
+           .View(view => view
+                    .WithModelOfType<EventFormModel>());
+
+        [Theory]
+        [InlineData(1, "Admin", "Administrator")]
         public void DeleteShouldBeForAdministratorAndReturnRedirect(int testId, string username, string role)
           => MyController<EventsController>
                 .Instance(instance => instance

@@ -69,6 +69,11 @@
 
             var match = this.matches.Details(id, firstTeam, secondTeam, startTime);
 
+            if (match == null)
+            {
+                return BadRequest();
+            }
+
             var matchForm = this.mapper.Map<MatchFormModel>(match);
 
             return View(matchForm);

@@ -96,6 +96,27 @@
                 .View(view => view
                     .WithModelOfType<AllPlayersQueryModel>());
 
+        [Fact]
+        public void GetEditShouldReturnBadRequstIfUserIsNotAdmin()
+            => MyController<PlayersController>
+                .Instance(controller => controller
+                    .WithUser())
+                .Calling(x => x.Edit(1))
+            .ShouldReturn()
+            .BadRequest();
+
+        [Theory]
+        [InlineData(1, "Admin", "Administrator")]
+        public void GetEditShouldBeForAdminAndReturnViewWithCorrectModel(int id, string username, string role)
+           => MyController<PlayersController>
+               .Instance(controller => controller
+                   .WithUser(username, new[] { role })
+                   .WithData(TenPublicPlayers))
+               .Calling(x => x.Edit(id))
+           .ShouldReturn()
+           .View(view => view
+                    .WithModelOfType<PlayerFormModel>());
+
         [Theory]
         [InlineData(1, "Admin", "Administrator")]
         public void DeleteShouldBeForAdministratorAndReturnRedirect(int testId, string username, string role)
